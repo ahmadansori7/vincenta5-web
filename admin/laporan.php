@@ -15,7 +15,7 @@ session_start();
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Dashboard</title>
+    <title>Laporan</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -48,7 +48,7 @@ session_start();
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="index.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -69,7 +69,7 @@ session_start();
             </li>
 
             <!-- Nav Item - Transaksi -->
-                        <li class="nav-item">
+                        <li class="nav-item active">
                 <a class="nav-link" href="laporan.php">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Laporan</span></a>
@@ -141,7 +141,7 @@ session_start();
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Laporan</h1> <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Export Data</a>
                         
                     </div>
 
@@ -155,7 +155,7 @@ session_start();
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Total Produk</div>
+                                                Total Transaksi per Tahun</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">200</div>
                                         </div>
                                         <div class="col-auto">
@@ -173,7 +173,7 @@ session_start();
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Total Transaksi Hari Ini</div>
+                                                Total Transaksi Bulan Ini</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
                                         </div>
                                         <div class="col-auto">
@@ -191,7 +191,7 @@ session_start();
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Penghasilan Hari Ini</div>
+                                                Penghasilan Bulan Ini</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. 100.000</div>
                                         </div>
                                         <div class="col-auto">
@@ -215,7 +215,7 @@ session_start();
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Statistik Penghasilan Minggu Ini</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Statistik Penghasilan per Bulan</h6>
                                     <div class="dropdown no-arrow">
                                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                     </div>

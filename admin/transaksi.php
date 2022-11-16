@@ -15,7 +15,7 @@ session_start();
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Dashboard</title>
+    <title>Transaksi</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -48,7 +48,7 @@ session_start();
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="index.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -62,7 +62,7 @@ session_start();
             </li>
 
             <!-- Nav Item - Transaksi -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="transaksi.php">
                     <i class="fas fa-fw fa-dollar-sign"></i>
                     <span>Transaksi</span></a>
@@ -141,91 +141,102 @@ session_start();
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Transaksi</h1> <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus-circle fa-sm text-white-50"></i> Tambahkan Produk</a>
                         
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Total Produk</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">200</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Id Transaksi</th>
+                                            <th>Tanggal</th>
+                                            <th>Nama Customer</th>
+                                            <th>Alamat</th>
+                                            <th>Order Produk</th>
+                                            <th>Total</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                   
+                                    <tbody>
+                                       
+                            <?php
+                            $query = "Select * from produk";
+                            $result = mysqli_query($koneksi, $query);
+                            $no = 1;
+                            while ($row = mysqli_fetch_array($result)) {
+                                $userMail = $row['user_email'];
+                                $userName = $row['user_fullname'];
+
+                                ?>
+
+                            <tr>
+                                <td><?php echo $no; ?></td>
+                                <td><?php echo $userMail; ?></td>
+                                <td><?php echo $userName; ?></td>
+                                <td>
+                                    <a class="btn btn-success btn-circle" href="#" data-toggle="modal" data-target="#myModal<?php echo $row['id']; ?>"><i class="fas fa-edit"></i></a>
+
+                                     <!-- Modal Edit -->
+            <div class="modal fade" id="myModal<?php echo $row['id']; ?>" role="dialog">
+              <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Edit Data</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST" action="edit.php">
+                        <?php
+                        $id = $row['id']; 
+                        $query_edit = mysqli_query($koneksi, "SELECT * FROM user_detail WHERE id='$id'");
+                        while ($row = mysqli_fetch_array($query_edit)) {  
+                        ?>
+                        <input type="hidden" name="txt_id" value="<?php echo $row['id']; ?>">
+                        <div class="form-group">
+                          <label>Email</label>
+                          <input type="text" name="txt_email" class="form-control" value="<?php echo $row['user_email']; ?>" required>      
                         </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Total Transaksi Hari Ini</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="form-group">
+                          <label>Nama</label>
+                          <input type="text" name="txt_nama" class="form-control" value="<?php echo $row['user_fullname']; ?>" required>      
                         </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                            <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Penghasilan Hari Ini</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. 100.000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="form-group">
+                          <label>Password</label>
+                          <input type="password" name="txt_pass" class="form-control" value="<?php echo $row['user_password']; ?>" required>      
                         </div>
+                        <div class="modal-footer">  
+                          <button type="update" class="btn btn-primary">Update</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                        <?php 
+                        }
+                        ?>        
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            
+            <a class="btn btn-danger btn-circle" href="hapus.php?id=<?php echo $row['id']; ?>"><i class="fas fa-trash"></i></a>
+            
+                                </td>
+                            </tr>
 
-                        
-                    </div>
+                            <?php
+                            $no++;
+                            } ?>
 
-                    <!-- Content Row -->
-
-                    <div class="row">
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-12 col-lg-7">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Statistik Penghasilan Minggu Ini</h6>
-                                    <div class="dropdown no-arrow">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
