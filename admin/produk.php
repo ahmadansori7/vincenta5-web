@@ -186,7 +186,7 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
                         </div>
                         <div class="form-group">
                           <label>Gambar</label>
-                          <input type="file" name="gambar" class="form-control" required>       
+                          <input type="file" name="gambar" class="form-control">       
                           <small style="color: red">Ekstensi yang diperbolehkan .png | .jpg | .jpeg | .gif</small>
                     
 
@@ -239,21 +239,21 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
 
                             <tr>
                                 <td><?php echo $no; ?></td>
-                                <td><?php echo $gambar; ?></td>
+                                <td><img style="width:40px;" src="img/not-found.jpg" ></td>
                                 <td><?php echo $namaproduk; ?></td>
                                 <td><?php echo $harga; ?></td>
                                 <td><?php echo $stok; ?></td>
                                 <td><?php echo $deskripsi; ?></td>
                                 <td>
-                                    <a class="btn btn-success btn-circle" href="#" data-toggle="modal" data-target="#myModal<?php echo $row['id']; ?>"><i class="fas fa-edit"></i></a>
+                                    <a class="btn btn-success btn-circle" href="#" data-toggle="modal" data-target="#myUpdate<?php echo $row['id_produk']; ?>"><i class="fas fa-edit"></i></a>
 
                                      <!-- Modal Edit -->
-            <div class="modal fade" id="myModal<?php echo $row['id']; ?>" role="dialog">
+            <div class="modal fade" id="myUpdate<?php echo $row['id_produk']; ?>" role="dialog">
               <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h4 class="modal-title">Edit Data</h4>
+                  <h4 class="modal-title"><i class="fas fa-edit"></i> Edit Produk</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                   </div>
                   <div class="modal-body">
@@ -263,21 +263,33 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
                         $query_edit = mysqli_query($koneksi, "SELECT * FROM produk WHERE id_produk='$id'");
                         while ($row = mysqli_fetch_array($query_edit)) {  
                         ?>
-                        <input type="hidden" name="txt_idproduk" value="<?php echo $row['id_produk']; ?>">
+                        <input type="hidden" name="idproduk" value="<?php echo $id; ?>">
                         <div class="form-group">
-                          <label>Email</label>
-                          <input type="text" name="txt_email" class="form-control" value="<?php echo $row['user_email']; ?>" required>      
+                          <label>Nama Produk</label>
+                          <input type="text" name="txt_nama" value="<?php echo $row['nama_produk']; ?>" class="form-control" required>      
                         </div>
                         <div class="form-group">
-                          <label>Nama</label>
-                          <input type="text" name="txt_nama" class="form-control" value="<?php echo $row['user_fullname']; ?>" required>      
+                          <label>Harga</label>
+                          <input type="number" name="txt_harga" value="<?php echo $row['harga']; ?>" class="form-control" required>      
+                        </div>
+
+                        <div class="form-group">
+                          <label>Stok</label>
+                          <input type="number" name="txt_stok" value="<?php echo $row['stok']; ?>" class="form-control" required>      
                         </div>
                         <div class="form-group">
-                          <label>Password</label>
-                          <input type="password" name="txt_pass" class="form-control" value="<?php echo $row['user_password']; ?>" required>      
+                          <label>Deskripsi</label>
+                          <input type="text" name="txt_deskripsi" value="<?php echo $row['deskripsi_produk']; ?>" class="form-control" required>      
+                        </div>
+                        <div class="form-group">
+                          <label>Gambar</label>
+                          <input type="file" name="gambar" class="form-control">       
+                          <small style="color: red">Ekstensi yang diperbolehkan .png | .jpg | .jpeg | .gif</small>
+                    
+
                         </div>
                         <div class="modal-footer">  
-                          <button type="update" class="btn btn-primary">Update</button>
+                          <button name="update"  class="btn btn-primary">Update</button>
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                         <?php 
