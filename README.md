@@ -19,6 +19,7 @@ Fitur yang masih dikembangkan :
 
 |      Fitur       |  Ketersediaan  |
 | :--------------: | :------------: |
+| Fitur Dashboard  |  On progress   |
 | Fitur Produk     |       ✔️       
 | Fitur Transaksi  |  On progress   |
 | Fitur Laporan    |  Belum Selesai |
