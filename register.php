@@ -9,23 +9,22 @@ if(isset($_POST['register'])) {
   $alamat = $_POST['txt_alamat'];
   
 
-  $cekuser  =  mysqli_num_rows (mysqli_query($koneksi, "select * from user where username ='$user'"));
+  $result = mysqli_query($koneksi, "SELECT * FROM user WHERE username = '$user'");
+if (mysqli_num_rows($result) > 0) {
+  echo "<script>
+  eval(\"parent.location='register.php '\");
+  alert (' Username sudah terdaftar!');
+  </script>";
+} else {
 
-
-  if($cekuser > 0 ) {
-    echo "<script>
-eval(\"parent.location='register.php '\");
-alert (' Username sudah terdaftar', silahkan gunakan username lain! ');
-</script>";
-  } else {
     $query  = "insert into user values('$user','$pass','$nama','$nohp','$alamat','admin')";
     $result = mysqli_query($koneksi, $query);
     echo "<script>
-eval(\"parent.location='login.php '\");
-alert (' Pendaftaran Berhasil!');
-</script>";
-}
-}
+    eval(\"parent.location='login.php '\");
+    alert (' Pendaftaran Berhasil!');
+    </script>";
+    }
+  }
 
 ?>
 
