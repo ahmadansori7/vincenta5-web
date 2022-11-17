@@ -9,12 +9,22 @@ if(isset($_POST['register'])) {
   $alamat = $_POST['txt_alamat'];
   
 
+  $cekuser  =  mysqli_num_rows (mysqli_query($koneksi, "select * from user where username ='$user'"));
+
+
+  if($cekuser > 0 ) {
+    echo "<script>
+eval(\"parent.location='register.php '\");
+alert (' Username sudah terdaftar', silahkan gunakan username lain! ');
+</script>";
+  } else {
     $query  = "insert into user values('$user','$pass','$nama','$nohp','$alamat','admin')";
     $result = mysqli_query($koneksi, $query);
     echo "<script>
 eval(\"parent.location='login.php '\");
 alert (' Pendaftaran Berhasil!');
 </script>";
+}
 }
 
 ?>
@@ -95,27 +105,27 @@ alert (' Pendaftaran Berhasil!');
           <form class="user" action="register.php" method="POST">
                                         <div class="form-group">
                                             <input name="txt_nama" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                               
                                                 placeholder="Nama Lengkap" required>
                                         </div>
                                         <div class="form-group">
                                             <input name="txt_alamat" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                               
                                                 placeholder="Alamat" required>
                                         </div>
                                         <div class="form-group">
-                                            <input name="txt_nohp" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                            <input name="txt_nohp" type="number" class="form-control form-control-user"
+                                                
                                                 placeholder="No. HP" required>
                                         </div>
                                         <div class="form-group">
                                             <input name="txt_user" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                               
                                                 placeholder="Username" required>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" name="txt_pass"  class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                             
                                                 placeholder="Password" required>
                                         </div>
                                   
@@ -165,7 +175,7 @@ alert (' Pendaftaran Berhasil!');
         <div class="row gy-4">
           <div class="col-lg-4 col-md-12 footer-info">
             <a href="index.html" class="logo d-flex align-items-center">
-              <h2 style="color:white;">V-Angkringan</h2>
+              <img src="assets/gambar/a5-img.png">
             </a>
             <p style="color:white;">Jl. Jaksa Agung Suprapto No.29, Kauman, Kec. Nganjuk,  Kabupaten Nganjuk, Jawa Timur 64411.</p>
            

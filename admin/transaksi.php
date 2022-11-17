@@ -1,6 +1,15 @@
 <?php
 require ('..\koneksi.php');
 session_start();
+
+if (!isset($_SESSION["ses"])) {
+    echo "<script>
+    eval(\"parent.location='../login.php '\");
+    alert (' Anda harus login terlebih dahulu');
+    </script>";
+	exit;
+}
+
 ?>
 
 
@@ -141,7 +150,7 @@ session_start();
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Transaksi</h1> <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus-circle fa-sm text-white-50"></i> Tambahkan Produk</a>
+                        <h1 class="h3 mb-0 text-gray-800">Transaksi</h1> <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Export Data</a>
                         
                     </div>
 
@@ -167,19 +176,27 @@ session_start();
                                     <tbody>
                                        
                             <?php
-                            $query = "Select * from produk";
+                            $query = "select transaksi.id_transaksi as id, transaksi.tanggal_transaksi as tgl, user.nama_lengkap as nama, user.alamat as alamat, transaksi.total_bayar as total_bayar FROM transaksi JOIN user ON transaksi.username=user.username ORDER BY id";
+                           
                             $result = mysqli_query($koneksi, $query);
                             $no = 1;
                             while ($row = mysqli_fetch_array($result)) {
-                                $userMail = $row['user_email'];
-                                $userName = $row['user_fullname'];
-
+                                $idtransaksi = $row['id'];
+                                $tgltransaksi = $row['tgl'];
+                                $namalengkap = $row['nama'];
+                                $alamat = $row['alamat'];
+                                $totalbayar = $row['total_bayar'];
+                            
                                 ?>
 
                             <tr>
                                 <td><?php echo $no; ?></td>
-                                <td><?php echo $userMail; ?></td>
-                                <td><?php echo $userName; ?></td>
+                                <td><?php echo $idtransaksi; ?></td>
+                                <td><?php echo $tgltransaksi; ?></td>
+                                <td><?php echo $namalengkap; ?></td>
+                                <td><?php echo $alamat; ?></td>
+                                <td></td>
+                                <td><?php echo $totalbayar; ?></td>
                                 <td>
                                     <a class="btn btn-success btn-circle" href="#" data-toggle="modal" data-target="#myModal<?php echo $row['id']; ?>"><i class="fas fa-edit"></i></a>
 
@@ -285,7 +302,7 @@ session_start();
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>

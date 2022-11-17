@@ -1,6 +1,15 @@
 <?php
 require ('..\koneksi.php');
 session_start();
+
+if (!isset($_SESSION["ses"])) {
+    echo "<script>
+    eval(\"parent.location='../login.php '\");
+    alert (' Anda harus login terlebih dahulu');
+    </script>";
+	exit;
+}
+
 ?>
 
 
@@ -118,11 +127,66 @@ session_start();
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#myProfile<?php echo $_SESSION['ses'] ?>">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
-            
+
+                                
+                                     <!-- Modal Edit -->
+            <div class="modal fade" id="myProfile<?php echo $_SESSION['ses'] ?>" role="dialog">
+              <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                  <h4 class="modal-title"><i class="fas fa-edit"></i> Edit Produk</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST" action="edit-produk.php">
+                        <?php
+                        $id = $row['id_produk']; 
+                        $query_edit = mysqli_query($koneksi, "SELECT * FROM produk WHERE id_produk='$id'");
+                        while ($row = mysqli_fetch_array($query_edit)) {  
+                        ?>
+                        <input type="hidden" name="idproduk" value="<?php echo $id; ?>">
+                        <div class="form-group">
+                          <label>Nama Produk</label>
+                          <input type="text" name="txt_nama" value="<?php echo $row['nama_produk']; ?>" class="form-control" required>      
+                        </div>
+                        <div class="form-group">
+                          <label>Harga</label>
+                          <input type="number" name="txt_harga" value="<?php echo $row['harga']; ?>" class="form-control" required>      
+                        </div>
+
+                        <div class="form-group">
+                          <label>Stok</label>
+                          <input type="number" name="txt_stok" value="<?php echo $row['stok']; ?>" class="form-control" required>      
+                        </div>
+                        <div class="form-group">
+                          <label>Deskripsi</label>
+                          <input type="text" name="txt_deskripsi" value="<?php echo $row['deskripsi_produk']; ?>" class="form-control" required>      
+                        </div>
+                        <div class="form-group">
+                          <label>Gambar</label>
+                          <input type="file" name="gambar" class="form-control">       
+                          <small style="color: red">Ekstensi yang diperbolehkan .png | .jpg | .jpeg | .gif</small>
+                    
+
+                        </div>
+                        <div class="modal-footer">  
+                          <button name="update"  class="btn btn-primary">Update</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                        <?php 
+                        }
+                        ?>        
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -145,6 +209,11 @@ session_start();
                         
                     </div>
 
+                    <?php
+                    $total  = mysqli_query($koneksi, "SELECT COUNT(id_produk) as total from produk");
+                    while ($row = mysqli_fetch_array($total)) {
+                    ?>
+
                     <!-- Content Row -->
                     <div class="row">
 
@@ -156,7 +225,7 @@ session_start();
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Total Produk</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">200</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $row['total']; ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -166,6 +235,14 @@ session_start();
                             </div>
                         </div>
 
+                        <?php 
+                        }
+                        ?>  
+
+                    <?php
+                    $totaltransaksi  = mysqli_query($koneksi, "SELECT COUNT(id_transaksi) as total from transaksi");
+                    while ($row = mysqli_fetch_array($totaltransaksi)) {
+                    ?>
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
@@ -174,7 +251,7 @@ session_start();
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Total Transaksi Hari Ini</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> <?php echo $row['total']; ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -184,6 +261,14 @@ session_start();
                             </div>
                         </div>
 
+                        <?php 
+                        }
+                        ?>  
+
+                    <?php
+                    $totalpenghasilan  = mysqli_query($koneksi, "select sum(total_bayar) as total from transaksi");
+                    while ($row = mysqli_fetch_array($totalpenghasilan)) {
+                    ?>
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-info shadow h-100 py-2">
@@ -192,7 +277,18 @@ session_start();
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Penghasilan Hari Ini</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. 100.000</div>
+
+
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <?php 
+                                            function rupiah($angka){
+                                                $hasil_rupiah = "Rp. " . number_format($angka,2,',','.');
+                                                return $hasil_rupiah;
+                                            }
+                                            echo rupiah($row['total']); 
+                                            ?>
+
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -201,7 +297,9 @@ session_start();
                                 </div>
                             </div>
                         </div>
-
+                        <?php 
+                        }
+                        ?>  
                         
                     </div>
 
@@ -274,7 +372,8 @@ session_start();
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>

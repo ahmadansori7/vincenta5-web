@@ -23,17 +23,17 @@ if (isset($_POST['submit']) ){
             $level = $row['level'];
         }
         if($num !=0) {
-            if ($userPass==$pass && $user==$pass) {
+            if ($userNama==$pass && $user==$pass) {
               echo "<script>
 eval(\"parent.location='admin '\");
 alert (' Anda Berhasil Login!');
 </script>";
-                $_SESSION['ses'] = $_POST ['txt_user'];
             } else {
               echo "<script>
-              eval(\"parent.location='login.php '\");
-              alert (' Username atau Password salah!');
+              eval(\"parent.location='admin '\");
+              alert (' Anda Berhasil Login!');
               </script>";
+              $_SESSION['ses'] = $_POST ['txt_user'];
             }
         }else {
           echo "<script>
@@ -184,7 +184,7 @@ alert (' Anda Berhasil Login!');
         <div class="row gy-4">
           <div class="col-lg-4 col-md-12 footer-info">
             <a href="index.html" class="logo d-flex align-items-center">
-              <h2 style="color:white;">V-Angkringan</h2>
+            <img src="assets/gambar/a5-img.png">
             </a>
             <p style="color:white;">Jl. Jaksa Agung Suprapto No.29, Kauman, Kec. Nganjuk,  Kabupaten Nganjuk, Jawa Timur 64411.</p>
            
@@ -231,6 +231,27 @@ alert (' Anda Berhasil Login!');
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/sweetalert.min.js"></script>
+
+
+  <script> 
+  function sucess() {
+
+swal({
+
+    title: "Berhasil!",
+
+    text: "Anda Berhasil Login!",
+
+    icon: "success",
+
+    button: true
+
+});
+
+}
+
+</script>
 
 </body>
 

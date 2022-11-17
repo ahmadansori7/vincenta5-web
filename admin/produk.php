@@ -2,6 +2,14 @@
 require ('..\koneksi.php');
 session_start();
 
+if (!isset($_SESSION["ses"])) {
+    echo "<script>
+    eval(\"parent.location='../login.php '\");
+    alert (' Anda harus login terlebih dahulu');
+    </script>";
+	exit;
+}
+
 $query = mysqli_query($koneksi, "SELECT max(id_produk) as kodeTerbesar FROM produk");
 $data = mysqli_fetch_array($query);
 $kodeBarang = $data['kodeTerbesar'];
@@ -224,7 +232,7 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
                                     <tbody>
                                        
                             <?php
-                            $query = "Select * from produk";
+                            $query = "Select * from produk order by nama_produk asc";
                             $result = mysqli_query($koneksi, $query);
                             $no = 1;
                             while ($row = mysqli_fetch_array($result)) {
@@ -239,7 +247,7 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
 
                             <tr>
                                 <td><?php echo $no; ?></td>
-                                <td><img style="width:40px;" src="img/not-found.jpg" ></td>
+                                <td><img style="width:80px;" src="img/not-found.jpg" ></td>
                                 <td><?php echo $namaproduk; ?></td>
                                 <td><?php echo $harga; ?></td>
                                 <td><?php echo $stok; ?></td>
@@ -300,9 +308,33 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
                 </div>
               </div>
             </div>
-      
-            
-            <a class="btn btn-danger btn-circle" href="hapus.php?id=<?php echo $row['id']; ?>"><i class="fas fa-trash"></i></a>
+
+            <a class="btn btn-danger btn-circle" href="#" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash"></i></a>
+
+            <!-- Hapus Modal-->
+            <div class="modal fade" id="deleteModal" role="dialog">
+       
+       <div class="modal-dialog">
+       
+           <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title" id="exampleModalLabel">Apakah anda ingin menghapus data?</h5>
+                   <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">×</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+               <form method="POST" action="edit-produk.php">
+               Tekan tombol "Hapus Data" untuk menghapus data produk secara permanent.
+               <div class="modal-footer">  
+               <a class="btn btn-danger" href="del-produk.php?id_produk=<?php echo $row[$id]; ?>">Hapus Data</a>
+                   <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                     </form>
+                     </div>
+                     </div>
+           </div>
+       </div>
+       </div>
             
                                 </td>
                             </tr>
@@ -361,11 +393,14 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>
     </div>
+
+
+
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

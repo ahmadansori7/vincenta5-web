@@ -282,7 +282,7 @@
         <div class="row gy-4">
           <div class="col-lg-4 col-md-12 footer-info">
             <a href="index.html" class="logo d-flex align-items-center">
-              <h2 style="color:white;">V-Angkringan</h2>
+            <img src="assets/gambar/a5-img.png">
             </a>
             <p style="color:white;">Jl. Jaksa Agung Suprapto No.29, Kauman, Kec. Nganjuk,  Kabupaten Nganjuk, Jawa Timur 64411.</p>
            
