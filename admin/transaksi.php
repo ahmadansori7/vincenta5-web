@@ -155,7 +155,7 @@ if (!isset($_SESSION["ses"])) {
                     </div>
 
                     <!-- Content Row -->
-                    <div class="row">
+                    <div class="row card shadow mb-4">
 
                     <div class="card-body">
                             <div class="table-responsive">
@@ -169,7 +169,7 @@ if (!isset($_SESSION["ses"])) {
                                             <th>Alamat</th>
                                             <th>Order Produk</th>
                                             <th>Total</th>
-                                            <th>Aksi</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                    
@@ -177,7 +177,6 @@ if (!isset($_SESSION["ses"])) {
                                        
                             <?php
                             $query = "select transaksi.id_transaksi as id, transaksi.tanggal_transaksi as tgl, user.nama_lengkap as nama, user.alamat as alamat, transaksi.total_bayar as total_bayar FROM transaksi JOIN user ON transaksi.username=user.username ORDER BY id";
-                           
                             $result = mysqli_query($koneksi, $query);
                             $no = 1;
                             while ($row = mysqli_fetch_array($result)) {
@@ -186,7 +185,6 @@ if (!isset($_SESSION["ses"])) {
                                 $namalengkap = $row['nama'];
                                 $alamat = $row['alamat'];
                                 $totalbayar = $row['total_bayar'];
-                            
                                 ?>
 
                             <tr>
@@ -195,7 +193,24 @@ if (!isset($_SESSION["ses"])) {
                                 <td><?php echo $tgltransaksi; ?></td>
                                 <td><?php echo $namalengkap; ?></td>
                                 <td><?php echo $alamat; ?></td>
-                                <td></td>
+
+                                <?php 
+                                $query1 = "select produk.nama_produk as produk, dtl_transaksi.jumlah_beli as jumlah_beli from dtl_transaksi join produk on dtl_transaksi.id_produk = produk.id_produk where dtl_transaksi.id_transaksi = '$idtransaksi'";
+                                $result1 = mysqli_query($koneksi, $query1);
+                                while ($row = mysqli_fetch_array($result1)) {
+                                $produk = $row['produk'];
+                                $jumlah_beli = $row['jumlah_beli'];
+
+                
+                                    
+                                ?>
+
+                                <td><?php echo $produk; ?> (<?php echo $jumlah_beli; ?>x)</td>
+
+                                <?php
+                                 }
+                                ?>
+
                                 <td><?php echo $totalbayar; ?></td>
                                 <td>
                                     <a class="btn btn-success btn-circle" href="#" data-toggle="modal" data-target="#myModal<?php echo $row['id']; ?>"><i class="fas fa-edit"></i></a>

@@ -4,51 +4,34 @@ require ('koneksi.php');
 session_start();
 
 if (isset($_POST['submit']) ){
-    $user = $_POST['txt_user'];
-    $pass = $_POST['txt_pass'];
-    /* 
-    $emailCheck = mysqli_real_escape_string($koneksi, $email);
-    $ */
-    if(!empty(trim($user)) && !empty(trim($pass))) {
-        //select data berdasarkan username dari database
-        $query = "SELECT * FROM user WHERE username = '$user'";
-        $result = mysqli_query($koneksi, $query);
-        $num = mysqli_num_rows($result);
+$username=$_POST['txt_user'];
+$password=$_POST['txt_pass'];
+ 
+// untuk keamanan
+$username = stripslashes($username);
+$password = stripslashes($password);
+ 
+$query="SELECT * FROM user WHERE username='$username' and password='$password'";
+$result = mysqli_query($koneksi, $query);
+$num = mysqli_num_rows($result);
 
-        while ($row = mysqli_fetch_array($result)){
-            $user = $row['username'];
-            $userPass = $row['password'];
-            $userNama = $row['nama_lengkap'];
-            $usernohp = $row['no_hp'];
-            $level = $row['level'];
-        }
-        if($num !=0) {
-            if ($userNama==$pass && $user==$pass) {
-              echo "<script>
-eval(\"parent.location='admin '\");
-alert (' Anda Berhasil Login!');
-</script>";
-            } else {
-              echo "<script>
-              eval(\"parent.location='admin '\");
-              alert (' Anda Berhasil Login!');
-              </script>";
-              $_SESSION['ses'] = $_POST ['txt_user'];
-            }
-        }else {
-          echo "<script>
+ 
+if($num==1){
+  $_SESSION['ses'] = $_POST ['txt_user'];
+  echo "<script>
+  eval(\"parent.location='admin '\");
+  alert (' Login Berhasil!');
+  </script>";
+}
+else {
+  echo "<script>
           eval(\"parent.location='login.php '\");
           alert (' Username atau Password salah!');
           </script>";
-        }
-    }else {
-      echo "<script>
-      eval(\"parent.location='login.php '\");
-      alert (' Data tidak boleh kosong!');
-      </script>";
-        echo $error;
-    }
 }
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -123,8 +106,7 @@ alert (' Anda Berhasil Login!');
           <h2 data-aos="fade-up">Login</h2>
           <hr data-aos="fade-up">
           <div data-aos="fade-up" data-aos-delay="600">
-          
-          
+
           <form class="user"  action="login.php" method="POST">
                                         <div class="form-group">
                                             <input type="text" name="txt_user" class="form-control form-control-user"
@@ -232,26 +214,6 @@ alert (' Anda Berhasil Login!');
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
   <script src="assets/js/sweetalert.min.js"></script>
-
-
-  <script> 
-  function sucess() {
-
-swal({
-
-    title: "Berhasil!",
-
-    text: "Anda Berhasil Login!",
-
-    icon: "success",
-
-    button: true
-
-});
-
-}
-
-</script>
 
 </body>
 
