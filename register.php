@@ -3,6 +3,7 @@ require ('koneksi.php');
 
 if(isset($_POST['register'])) {
   $user = $_POST['txt_user'];
+  $email = $_POST['txt_email'];
   $pass = $_POST['txt_pass'];
   $nohp = $_POST['txt_nohp'];
   $nama = $_POST['txt_nama'];
@@ -17,7 +18,7 @@ if (mysqli_num_rows($result) > 0) {
   </script>";
 } else {
 
-    $query  = "insert into user values('$user','$pass','$nama','$nohp','$alamat','admin')";
+    $query  = "insert into user values('$user','$email','$pass','$nama','$nohp','$alamat','pelanggan')";
     $result = mysqli_query($koneksi, $query);
     echo "<script>
     eval(\"parent.location='login.php '\");
@@ -116,6 +117,12 @@ if (mysqli_num_rows($result) > 0) {
                                             <input name="txt_nohp" type="number" class="form-control form-control-user"
                                                 
                                                 placeholder="No. HP" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="text" name="txt_email"  class="form-control form-control-user"
+                                             
+                                                placeholder="Email" required>
                                         </div>
                                         <div class="form-group">
                                             <input name="txt_user" class="form-control form-control-user"

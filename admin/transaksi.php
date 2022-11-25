@@ -150,7 +150,7 @@ if (!isset($_SESSION["ses"])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Transaksi</h1> <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Export Data</a>
+                        <h1 class="h3 mb-0 text-gray-800">Transaksi</h1> <a href="export-data-transaksi.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Export Data</a>
                         
                     </div>
 
@@ -176,7 +176,7 @@ if (!isset($_SESSION["ses"])) {
                                     <tbody>
                                        
                             <?php
-                            $query = "select transaksi.id_transaksi as id, transaksi.tanggal_transaksi as tgl, user.nama_lengkap as nama, user.alamat as alamat, transaksi.total_bayar as total_bayar FROM transaksi JOIN user ON transaksi.username=user.username ORDER BY id";
+                            $query = "select transaksi.id_transaksi as id, transaksi.tanggal_transaksi as tgl, user.nama_lengkap as nama, user.alamat as alamat, transaksi.total_bayar as total_bayar, transaksi.status as status FROM transaksi JOIN user ON transaksi.username=user.username ORDER BY tgl DESC";
                             $result = mysqli_query($koneksi, $query);
                             $no = 1;
                             while ($row = mysqli_fetch_array($result)) {
@@ -185,6 +185,7 @@ if (!isset($_SESSION["ses"])) {
                                 $namalengkap = $row['nama'];
                                 $alamat = $row['alamat'];
                                 $totalbayar = $row['total_bayar'];
+                                $status = $row['status'];
                                 ?>
 
                             <tr>
@@ -199,10 +200,7 @@ if (!isset($_SESSION["ses"])) {
                                 $result1 = mysqli_query($koneksi, $query1);
                                 while ($row = mysqli_fetch_array($result1)) {
                                 $produk = $row['produk'];
-                                $jumlah_beli = $row['jumlah_beli'];
-
-                
-                                    
+                                $jumlah_beli = $row['jumlah_beli']; 
                                 ?>
 
                                 <td><?php echo $produk; ?> (<?php echo $jumlah_beli; ?>x)</td>
@@ -213,52 +211,18 @@ if (!isset($_SESSION["ses"])) {
 
                                 <td><?php echo $totalbayar; ?></td>
                                 <td>
-                                    <a class="btn btn-success btn-circle" href="#" data-toggle="modal" data-target="#myModal<?php echo $row['id']; ?>"><i class="fas fa-edit"></i></a>
 
-                                     <!-- Modal Edit -->
-            <div class="modal fade" id="myModal<?php echo $row['id']; ?>" role="dialog">
-              <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title">Edit Data</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  </div>
-                  <div class="modal-body">
-                    <form method="POST" action="edit.php">
-                        <?php
-                        $id = $row['id']; 
-                        $query_edit = mysqli_query($koneksi, "SELECT * FROM user_detail WHERE id='$id'");
-                        while ($row = mysqli_fetch_array($query_edit)) {  
-                        ?>
-                        <input type="hidden" name="txt_id" value="<?php echo $row['id']; ?>">
-                        <div class="form-group">
-                          <label>Email</label>
-                          <input type="text" name="txt_email" class="form-control" value="<?php echo $row['user_email']; ?>" required>      
-                        </div>
-                        <div class="form-group">
-                          <label>Nama</label>
-                          <input type="text" name="txt_nama" class="form-control" value="<?php echo $row['user_fullname']; ?>" required>      
-                        </div>
-                        <div class="form-group">
-                          <label>Password</label>
-                          <input type="password" name="txt_pass" class="form-control" value="<?php echo $row['user_password']; ?>" required>      
-                        </div>
-                        <div class="modal-footer">  
-                          <button type="update" class="btn btn-primary">Update</button>
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                        <?php 
-                        }
-                        ?>        
-                      </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-      
-            
-            <a class="btn btn-danger btn-circle" href="hapus.php?id=<?php echo $row['id']; ?>"><i class="fas fa-trash"></i></a>
+                                <?php 
+                                    if($status=="0") {
+                                        echo "<a class='btn btn-warning btn-circle' title='Transaksi sedang Diproses' href='proses-trans.php?id=$idtransaksi'><i class='fas fa-clock'></i></a>";
+                                    }
+                                    else {
+                                        echo "<a class='btn btn-success btn-circle' title='Transaksi sudah Selesai' href='#'><i class='fas fa-check'></i></a>";
+                                    }
+                                    
+                                   
+
+                                    ?>
             
                                 </td>
                             </tr>

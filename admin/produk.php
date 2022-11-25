@@ -172,7 +172,7 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                   </div>
                   <div class="modal-body">
-                    <form method="POST" action="add-produk.php">
+                    <form method="POST" action="add-produk.php" enctype="multipart/form-data">
 
                      <input type="hidden" name="txt_id" value="<?php echo $kodeBarang; ?>">
                         <div class="form-group">
@@ -194,7 +194,7 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
                         </div>
                         <div class="form-group">
                           <label>Gambar</label>
-                          <input type="file" name="gambar" class="form-control">       
+                          <input type="file" name="gambar" value="" accept=".jpg, .jpeg, .png, .gif" value="" class="form-control" required>       
                           <small style="color: red">Ekstensi yang diperbolehkan .png | .jpg | .jpeg | .gif</small>
                     
 
@@ -242,12 +242,13 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
                                 $harga = $row['harga'];
                                 $stok = $row['stok'];
                                 $deskripsi = $row['deskripsi_produk'];
+                                $gambar = $row['gambar'];
 
                                 ?>
 
                             <tr>
                                 <td><?php echo $no; ?></td>
-                                <td><img style="width:80px;" src="img/not-found.jpg" ></td>
+                                <td><img style="width:80px;" class="rounded-circle" src="gambarproduk/<?php echo $gambar; ?>" ></td>
                                 <td><?php echo $namaproduk; ?></td>
                                 <td><?php echo $harga; ?></td>
                                 <td><?php echo $stok; ?></td>
@@ -265,7 +266,7 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                   </div>
                   <div class="modal-body">
-                    <form method="POST" action="edit-produk.php">
+                    <form method="POST" action="edit-produk.php" enctype="multipart/form-data">
                         <?php
                         $id = $row['id_produk']; 
                         $query_edit = mysqli_query($koneksi, "SELECT * FROM produk WHERE id_produk='$id'");
@@ -291,7 +292,7 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
                         </div>
                         <div class="form-group">
                           <label>Gambar</label>
-                          <input type="file" name="gambar" class="form-control">       
+                          <input type="file" name="gambar" value="" accept=".jpg, .jpeg, .png, .gif" value="" class="form-control" required>       
                           <small style="color: red">Ekstensi yang diperbolehkan .png | .jpg | .jpeg | .gif</small>
                     
 
@@ -309,32 +310,9 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
               </div>
             </div>
 
-            <a class="btn btn-danger btn-circle" href="#" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash"></i></a>
+            <a class="btn btn-danger btn-circle" href="del-produk.php?id=<?php echo $id ?>"><i class="fas fa-trash"></i></a>
 
-            <!-- Hapus Modal-->
-            <div class="modal fade" id="deleteModal" role="dialog">
-       
-       <div class="modal-dialog">
-       
-           <div class="modal-content">
-               <div class="modal-header">
-                   <h5 class="modal-title" id="exampleModalLabel">Apakah anda ingin menghapus data?</h5>
-                   <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                       <span aria-hidden="true">×</span>
-                   </button>
-               </div>
-               <div class="modal-body">
-               <form method="POST" action="edit-produk.php">
-               Tekan tombol "Hapus Data" untuk menghapus data produk secara permanent.
-               <div class="modal-footer">  
-               <a class="btn btn-danger" href="del-produk.php?id_produk=<?php echo $row[$id]; ?>">Hapus Data</a>
-                   <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                     </form>
-                     </div>
-                     </div>
-           </div>
-       </div>
-       </div>
+    
             
                                 </td>
                             </tr>

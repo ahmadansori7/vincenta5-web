@@ -157,6 +157,10 @@ if (!isset($_SESSION["ses"])) {
                     <!-- Content Row -->
                     <div class="row">
 
+                    <?php
+                    $totaltransaksi  = mysqli_query($koneksi, "SELECT COUNT(id_transaksi) as total from transaksi where YEAR(tanggal_transaksi);");
+                    while ($row = mysqli_fetch_array($totaltransaksi)) {
+                    ?>
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
@@ -165,7 +169,7 @@ if (!isset($_SESSION["ses"])) {
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Total Transaksi per Tahun</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">200</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $row['total']; ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -175,6 +179,15 @@ if (!isset($_SESSION["ses"])) {
                             </div>
                         </div>
 
+
+                        <?php 
+                        }
+                        ?>  
+
+                    <?php
+                    $totaltransaksi  = mysqli_query($koneksi, "SELECT COUNT(id_transaksi) as totalminggu from transaksi where MONTH(tanggal_transaksi);");
+                    while ($row = mysqli_fetch_array($totaltransaksi)) {
+                    ?>
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
@@ -183,16 +196,25 @@ if (!isset($_SESSION["ses"])) {
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Total Transaksi Bulan Ini</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $row['totalminggu']; ?></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <?php 
+                        }
+                        ?>  
+
+
+                    <?php
+                    $totaltransaksi  = mysqli_query($koneksi, "SELECT SUM(total_bayar) as totalpenghasilan from transaksi where MONTH(tanggal_transaksi)");
+                    while ($row = mysqli_fetch_array($totaltransaksi)) {
+                    ?>
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-info shadow h-100 py-2">
@@ -201,7 +223,13 @@ if (!isset($_SESSION["ses"])) {
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Penghasilan Bulan Ini</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. 100.000</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php 
+                                            function rupiah($angka){
+                                                $hasil_rupiah = "Rp. " . number_format($angka,2,',','.');
+                                                return $hasil_rupiah;
+                                            }
+                                            echo rupiah($row['totalpenghasilan']); 
+                                            ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -210,9 +238,11 @@ if (!isset($_SESSION["ses"])) {
                                 </div>
                             </div>
                         </div>
-
-                        
                     </div>
+                    <?php 
+                        }
+                        ?>  
+
 
                     <!-- Content Row -->
 

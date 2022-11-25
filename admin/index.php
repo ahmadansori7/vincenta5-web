@@ -10,7 +10,11 @@ if (!isset($_SESSION["ses"])) {
 	exit;
 }
 
+$user = $_SESSION['ses'];
+
 ?>
+
+
 
 
 <!DOCTYPE html>
@@ -127,65 +131,13 @@ if (!isset($_SESSION["ses"])) {
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#myProfile<?php echo $_SESSION['ses'] ?>">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#myProfile">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
 
                                 
-                                     <!-- Modal Edit -->
-            <div class="modal fade" id="myProfile<?php echo $_SESSION['ses'] ?>" role="dialog">
-              <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                  <div class="modal-header">
-                  <h4 class="modal-title"><i class="fas fa-edit"></i> Edit Produk</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  </div>
-                  <div class="modal-body">
-                    <form method="POST" action="edit-produk.php">
-                        <?php
-                        $id = $row['id_produk']; 
-                        $query_edit = mysqli_query($koneksi, "SELECT * FROM produk WHERE id_produk='$id'");
-                        while ($row = mysqli_fetch_array($query_edit)) {  
-                        ?>
-                        <input type="hidden" name="idproduk" value="<?php echo $id; ?>">
-                        <div class="form-group">
-                          <label>Nama Produk</label>
-                          <input type="text" name="txt_nama" value="<?php echo $row['nama_produk']; ?>" class="form-control" required>      
-                        </div>
-                        <div class="form-group">
-                          <label>Harga</label>
-                          <input type="number" name="txt_harga" value="<?php echo $row['harga']; ?>" class="form-control" required>      
-                        </div>
-
-                        <div class="form-group">
-                          <label>Stok</label>
-                          <input type="number" name="txt_stok" value="<?php echo $row['stok']; ?>" class="form-control" required>      
-                        </div>
-                        <div class="form-group">
-                          <label>Deskripsi</label>
-                          <input type="text" name="txt_deskripsi" value="<?php echo $row['deskripsi_produk']; ?>" class="form-control" required>      
-                        </div>
-                        <div class="form-group">
-                          <label>Gambar</label>
-                          <input type="file" name="gambar" class="form-control">       
-                          <small style="color: red">Ekstensi yang diperbolehkan .png | .jpg | .jpeg | .gif</small>
-                    
-
-                        </div>
-                        <div class="modal-footer">  
-                          <button name="update"  class="btn btn-primary">Update</button>
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                        <?php 
-                        }
-                        ?>        
-                      </form>
-                  </div>
-                </div>
-              </div>
-            </div>
+                                  
 
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -199,6 +151,67 @@ if (!isset($_SESSION["ses"])) {
 
                 </nav>
                 <!-- End of Topbar -->
+
+           
+
+
+                   <!-- Modal Edit -->
+            <div class="modal fade" id="myProfile" role="dialog">
+              <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                  <h4 class="modal-title"><i class="fas fa-edit"></i> Edit Profile</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST" action="edit-profile.php" enctype="multipart/form-data">
+                        <?php
+                        
+                        $query_edit1 = mysqli_query($koneksi, "SELECT * FROM user WHERE username='$user'");
+                        while ($row = mysqli_fetch_array($query_edit1)) {  
+        
+                        ?>
+                      
+                          
+                     
+                          <input type="hidden" name="txt_user" value="<?php echo $row['username']; ?>" class="form-control" disabled>      
+                       
+                        
+                        <div class="form-group">
+                          <label>Email</label>
+                          <input type="text" name="txt_email" value="<?php echo $row['email']; ?>" class="form-control" required>      
+                        </div>
+                        <div class="form-group">
+                          <label>Password</label>
+                          <input type="password" name="txt_pass" value="<?php echo $row['password']; ?>" class="form-control" required>      
+                        </div>
+                        <div class="form-group">
+                          <label>Nama Lengkap</label>
+                          <input type="text" name="txt_nama" value="<?php echo $row['nama_lengkap']; ?>" class="form-control" required>      
+                        </div>
+
+                        <div class="form-group">
+                          <label>No. HP</label>
+                          <input type="number" name="txt_nohp" value="0<?php echo $row['no_hp']; ?>" class="form-control" required>      
+                        </div>
+                        <div class="form-group">
+                          <label>Alamat</label>
+                          <input type="text" name="txt_alamat" value="<?php echo $row['alamat']; ?>" class="form-control" required>      
+                        </div>
+                       
+                        <div class="modal-footer">  
+                          <button name="updateprofile" id="updateprofile" class="btn btn-primary">Update</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                        <?php 
+                        }
+                        ?>        
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
