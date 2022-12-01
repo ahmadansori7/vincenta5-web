@@ -18,6 +18,24 @@ $urutan++;
 $huruf = "PRDK";
 $kodeBarang = $huruf . sprintf("%03s", $urutan);
 
+$user = $_SESSION['ses'];
+
+if(isset($_POST['updateprofile'])) {
+
+    $email = $_POST['txt_email'];
+    $pass = $_POST['txt_pass'];
+    $nama = $_POST['txt_nama'];
+    $nohp = $_POST['txt_nohp'];
+    $alamat = $_POST['txt_alamat'];
+
+
+    $query  = mysqli_query($koneksi, "UPDATE `user` SET `email`='$email',`password`='$pass',`nama_lengkap`='$nama',`no_hp`=$nohp,`alamat`='$alamat' WHERE `username`='$user'");
+    $result = mysqli_query($koneksi, $query);
+    echo "<script>
+    alert (' Profile Berhasil Diupdate!');
+    </script>";
+    } 
+
 ?>
 
 
@@ -135,7 +153,7 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#myProfile">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -153,6 +171,64 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
                 </nav>
                 <!-- End of Topbar -->
 
+                  <!-- Modal Edit -->
+            <div class="modal fade" id="myProfile" role="dialog">
+              <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                  <h4 class="modal-title"><i class="fas fa-edit"></i> Edit Profile</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST" action="#" enctype="multipart/form-data">
+                        <?php
+                        
+                        $query_edit1 = mysqli_query($koneksi, "SELECT * FROM user WHERE username='$user'");
+                        while ($row = mysqli_fetch_array($query_edit1)) {  
+        
+                        ?>
+                      
+                          
+                            
+                          <input type="hidden" name="txt_user" value="<?php echo $row['username']; ?>" class="form-control" disabled>      
+                       
+                        
+                        <div class="form-group">
+                          <label>Email</label>
+                          <input type="text" name="txt_email" value="<?php echo $row['email']; ?>" class="form-control" required>      
+                        </div>
+                        <div class="form-group">
+                          <label>Password</label>
+                          <input type="password" name="txt_pass" value="<?php echo $row['password']; ?>" class="form-control" required>      
+                        </div>
+                        <div class="form-group">
+                          <label>Nama Lengkap</label>
+                          <input type="text" name="txt_nama" value="<?php echo $row['nama_lengkap']; ?>" class="form-control" required>      
+                        </div>
+
+                        <div class="form-group">
+                          <label>No. HP</label>
+                          <input type="number" name="txt_nohp" value="<?php echo $row['no_hp']; ?>" class="form-control" required>      
+                        </div>
+                        <div class="form-group">
+                          <label>Alamat Lengkap</label>
+                          <input type="text" name="txt_alamat" value="<?php echo $row['alamat']; ?>" class="form-control" required>      
+                        </div>
+                       
+                        <div class="modal-footer">  
+                          <button name="updateprofile" id="updateprofile" class="btn btn-primary">Update</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                        <?php 
+                        }
+                        ?>        
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
@@ -160,7 +236,7 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Produk</h1> 
                         
-                        <a href="#" data-toggle="modal" data-target="#addProduk" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus-circle fa-sm text-white-50"></i> Tambahkan Produk</a>
+                        <a href="#" data-toggle="modal" title="Tambahkan Produk" data-target="#addProduk" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus-circle fa-sm text-white-50"></i> Tambahkan Produk</a>
 
                          <!-- Modal Tambahkan Data -->
             <div class="modal fade" id="addProduk" role="dialog">
@@ -248,13 +324,13 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
 
                             <tr>
                                 <td><?php echo $no; ?></td>
-                                <td><img style="width:80px;" class="rounded-circle" src="gambarproduk/<?php echo $gambar; ?>" ></td>
+                                <td><img title="<?php echo $namaproduk; ?>" style="width:80px;" class="rounded-circle" src="gambarproduk/<?php echo $gambar; ?>" ></td>
                                 <td><?php echo $namaproduk; ?></td>
                                 <td><?php echo $harga; ?></td>
                                 <td><?php echo $stok; ?></td>
                                 <td><?php echo $deskripsi; ?></td>
                                 <td>
-                                    <a class="btn btn-success btn-circle" href="#" data-toggle="modal" data-target="#myUpdate<?php echo $row['id_produk']; ?>"><i class="fas fa-edit"></i></a>
+                                    <a class="btn btn-success btn-circle" title="Edit Produk" href="#" data-toggle="modal" data-target="#myUpdate<?php echo $row['id_produk']; ?>"><i class="fas fa-edit"></i></a>
 
                                      <!-- Modal Edit -->
             <div class="modal fade" id="myUpdate<?php echo $row['id_produk']; ?>" role="dialog">
@@ -292,7 +368,9 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
                         </div>
                         <div class="form-group">
                           <label>Gambar</label>
-                          <input type="file" name="gambar" value="" accept=".jpg, .jpeg, .png, .gif" value="" class="form-control" required>       
+                          <p><img style="width:80px;" class="rounded-circle" src="gambarproduk/<?php echo $gambar; ?>" ></p>
+                          <small>Update gambar</small>
+                          <input type="file" name="gambar" value="" accept=".jpg, .jpeg, .png, .gif" class="form-control">       
                           <small style="color: red">Ekstensi yang diperbolehkan .png | .jpg | .jpeg | .gif</small>
                     
 
@@ -310,7 +388,7 @@ $kodeBarang = $huruf . sprintf("%03s", $urutan);
               </div>
             </div>
 
-            <a class="btn btn-danger btn-circle" href="del-produk.php?id=<?php echo $id ?>"><i class="fas fa-trash"></i></a>
+            <a class="btn btn-danger btn-circle"  title="Delete Produk" href="del-produk.php?id=<?php echo $id ?>"><i class="fas fa-trash"></i></a>
 
     
             

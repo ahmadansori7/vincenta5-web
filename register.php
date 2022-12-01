@@ -18,7 +18,7 @@ if (mysqli_num_rows($result) > 0) {
   </script>";
 } else {
 
-    $query  = "insert into user values('$user','$email','$pass','$nama','$nohp','$alamat','pelanggan')";
+    $query  = "insert into user values('$user','$email','$pass','$nama','$nohp','$alamat','user')";
     $result = mysqli_query($koneksi, $query);
     echo "<script>
     eval(\"parent.location='login.php '\");
@@ -111,7 +111,7 @@ if (mysqli_num_rows($result) > 0) {
                                         <div class="form-group">
                                             <input name="txt_alamat" class="form-control form-control-user"
                                                
-                                                placeholder="Alamat" required>
+                                                placeholder="Alamat Lengkap" required>
                                         </div>
                                         <div class="form-group">
                                             <input name="txt_nohp" type="number" class="form-control form-control-user"

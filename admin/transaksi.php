@@ -10,6 +10,24 @@ if (!isset($_SESSION["ses"])) {
 	exit;
 }
 
+$user = $_SESSION['ses'];
+
+if(isset($_POST['updateprofile'])) {
+
+    $email = $_POST['txt_email'];
+    $pass = $_POST['txt_pass'];
+    $nama = $_POST['txt_nama'];
+    $nohp = $_POST['txt_nohp'];
+    $alamat = $_POST['txt_alamat'];
+
+
+    $query  = mysqli_query($koneksi, "UPDATE `user` SET `email`='$email',`password`='$pass',`nama_lengkap`='$nama',`no_hp`=$nohp,`alamat`='$alamat' WHERE `username`='$user'");
+    $result = mysqli_query($koneksi, $query);
+    echo "<script>
+    alert (' Profile Berhasil Diupdate!');
+    </script>";
+    } 
+
 ?>
 
 
@@ -127,7 +145,7 @@ if (!isset($_SESSION["ses"])) {
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#myProfile">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -144,6 +162,64 @@ if (!isset($_SESSION["ses"])) {
 
                 </nav>
                 <!-- End of Topbar -->
+
+                 <!-- Modal Edit -->
+            <div class="modal fade" id="myProfile" role="dialog">
+              <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                  <h4 class="modal-title"><i class="fas fa-edit"></i> Edit Profile</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST" action="#" enctype="multipart/form-data">
+                        <?php
+                        
+                        $query_edit1 = mysqli_query($koneksi, "SELECT * FROM user WHERE username='$user'");
+                        while ($row = mysqli_fetch_array($query_edit1)) {  
+        
+                        ?>
+                      
+                          
+                            
+                          <input type="hidden" name="txt_user" value="<?php echo $row['username']; ?>" class="form-control" disabled>      
+                       
+                        
+                        <div class="form-group">
+                          <label>Email</label>
+                          <input type="text" name="txt_email" value="<?php echo $row['email']; ?>" class="form-control" required>      
+                        </div>
+                        <div class="form-group">
+                          <label>Password</label>
+                          <input type="password" name="txt_pass" value="<?php echo $row['password']; ?>" class="form-control" required>      
+                        </div>
+                        <div class="form-group">
+                          <label>Nama Lengkap</label>
+                          <input type="text" name="txt_nama" value="<?php echo $row['nama_lengkap']; ?>" class="form-control" required>      
+                        </div>
+
+                        <div class="form-group">
+                          <label>No. HP</label>
+                          <input type="number" name="txt_nohp" value="<?php echo $row['no_hp']; ?>" class="form-control" required>      
+                        </div>
+                        <div class="form-group">
+                          <label>Alamat Lengkap</label>
+                          <input type="text" name="txt_alamat" value="<?php echo $row['alamat']; ?>" class="form-control" required>      
+                        </div>
+                       
+                        <div class="modal-footer">  
+                          <button name="updateprofile" id="updateprofile" class="btn btn-primary">Update</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                        <?php 
+                        }
+                        ?>        
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
