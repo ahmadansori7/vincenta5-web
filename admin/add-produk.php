@@ -9,13 +9,14 @@ if(isset($_POST['tambah'])) {
     $harga = $_POST['txt_harga'];
     $stok = $_POST['txt_stok'];
     $deskripsi_produk = $_POST['txt_deskripsi'];
+    $kategori = $_POST['kategori'];
 
     $nama_file = $_FILES ['gambar']['name'];
     $source = $_FILES ['gambar']['tmp_name'];
     $folder = 'gambarproduk/';
 
     move_uploaded_file($source, $folder.$nama_file);
-    $query  = mysqli_query($koneksi, "INSERT INTO `produk`(`id_produk`, `nama_produk`, `deskripsi_produk`, `harga`, `gambar`, `stok`) VALUES ('$id','$nama_produk','$deskripsi_produk','$harga','$nama_file','$stok')");
+    $query  = mysqli_query($koneksi, "INSERT INTO `produk`(`id_produk`, `nama_produk`, `deskripsi_produk`, `harga`, `gambar`, `stok`, `kategori`) VALUES ('$id','$nama_produk','$deskripsi_produk','$harga','$nama_file','$stok','$kategori')");
     $result = mysqli_query($koneksi, $query);
     echo "<script>
     eval(\"parent.location='produk.php '\");

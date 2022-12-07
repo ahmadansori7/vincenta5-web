@@ -350,7 +350,7 @@ if(isset($_POST['updateprofile'])) {
                         ?>  
 
                     <?php
-                    $totalpenghasilan  = mysqli_query($koneksi, "select sum(total_bayar) as total from transaksi where tanggal_transaksi = CURRENT_DATE()");
+                    $totalpenghasilan  = mysqli_query($koneksi, "select sum(detail_transaksi.subtotal) as total from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where transaksi.tanggal_transaksi = CURRENT_DATE()");
                     while ($row = mysqli_fetch_array($totalpenghasilan)) {
                     ?>
                         <!-- Earnings (Monthly) Card Example -->
@@ -531,43 +531,43 @@ var myLineChart = new Chart(ctx, {
       pointHitRadius: 10,
       pointBorderWidth: 2,
       data: [<?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(total_bayar),0) as senin from transaksi WHERE tanggal_transaksi = curdate() - interval 4 day;");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(detail_transaksi.subtotal),0) as senin from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where transaksi.tanggal_transaksi = CURRENT_DATE() - interval 3 day");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['senin']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(total_bayar),0) as selasa from transaksi WHERE tanggal_transaksi = curdate() - interval 3 day;");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(detail_transaksi.subtotal),0) as selasa from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where transaksi.tanggal_transaksi = CURRENT_DATE() - interval 2 day");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['selasa']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(total_bayar),0) as rabu from transaksi WHERE tanggal_transaksi = curdate() - interval 2 day;");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(detail_transaksi.subtotal),0) as rabu from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where transaksi.tanggal_transaksi = CURRENT_DATE() - interval 1 day");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['rabu']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(total_bayar),0) as kamis from transaksi WHERE tanggal_transaksi = curdate() - interval 1 day;");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(detail_transaksi.subtotal),0) as kamis from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where transaksi.tanggal_transaksi = CURRENT_DATE();");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['kamis']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(total_bayar),0) as jumat from transaksi WHERE tanggal_transaksi = curdate()");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(detail_transaksi.subtotal),0) as jumat from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where transaksi.tanggal_transaksi = CURRENT_DATE() + interval 1 day");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['jumat']; ?>
 <?php 
 }
 ?> , <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(total_bayar),0) as sabtu from transaksi WHERE tanggal_transaksi = curdate() + interval 1 day;");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(detail_transaksi.subtotal),0) as sabtu from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where transaksi.tanggal_transaksi = CURRENT_DATE() + interval 2 day");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['sabtu']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(total_bayar),0) as minggu from transaksi WHERE tanggal_transaksi = curdate() + interval 2 day;");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(detail_transaksi.subtotal),0) as minggu from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where transaksi.tanggal_transaksi = CURRENT_DATE() + interval 3 day");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['minggu']; ?>
 <?php 

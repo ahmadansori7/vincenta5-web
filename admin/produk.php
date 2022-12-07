@@ -13,10 +13,10 @@ if (!isset($_SESSION["ses"])) {
 $query = mysqli_query($koneksi, "SELECT max(id_produk) as kodeTerbesar FROM produk");
 $data = mysqli_fetch_array($query);
 $kodeBarang = $data['kodeTerbesar'];
-$urutan = (int) substr($kodeBarang, 4, 4);
+$urutan = (int) substr($kodeBarang, 7, 7);
 $urutan++;
-$huruf = "PRDK";
-$kodeBarang = $huruf . sprintf("%03s", $urutan);
+$huruf = "PDK";
+$kodeBarang = $huruf . sprintf("%07s", $urutan);
 
 $user = $_SESSION['ses'];
 
@@ -344,6 +344,9 @@ if(isset($_POST['updateprofile'])) {
                           <label>Deskripsi</label>
                           <input type="text" name="txt_deskripsi" class="form-control" required>      
                         </div>
+
+                  
+
                         <div class="form-group">
                           <label>Gambar</label>
                           <input type="file" name="gambar" value="" accept=".jpg, .jpeg, .png, .gif" value="" class="form-control" required>       
@@ -351,6 +354,22 @@ if(isset($_POST['updateprofile'])) {
                     
 
                         </div>
+
+                        <div class="form-group">
+                          <label>Kategori</label>
+                          <select name="kategori">
+                          <option value="">--Pilih salah satu--</option>
+                          <option value="makanan">Makanan</option>
+                          <option value="cemilan">Cemilan</option>
+                          <option value="frozenfood">Frozen Food</option>
+                          <option value="minumanpanas">Minuman Panas</option>
+                          <option value="minumandingin">Minuman Dingin</option>
+                          <option value="minumanherbal">Minuman Herbal</option>
+                          <option value="minumanlainnya">Minuman Lainnya</option>
+                        
+                      </select>
+                        </div>
+
                         <div class="modal-footer">  
                           <button type="submit" name="tambah" class="btn btn-primary">Tambahkan</button>
                           <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
@@ -456,9 +475,8 @@ if(isset($_POST['updateprofile'])) {
                           <small>Update gambar</small>
                           <input type="file" name="gambar" value="" accept=".jpg, .jpeg, .png, .gif" class="form-control">       
                           <small style="color: red">Ekstensi yang diperbolehkan .png | .jpg | .jpeg | .gif</small>
-                    
-
                         </div>
+
                         <div class="modal-footer">  
                           <button name="update"  class="btn btn-primary">Update</button>
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
