@@ -19,9 +19,9 @@ Fitur yang masih dikembangkan :
 
 |      Fitur       |  Ketersediaan  |
 | :--------------: | :------------: |
-| Fitur Dashboard  |  On progress   |
-| Fitur Produk     |       ✔️       
+| Fitur Dashboard  |       ✔️      |   
+| Fitur Produk     |       ✔️      |   
 | Fitur Transaksi  |  On progress   |
-| Fitur Laporan    |  Belum Selesai |
+| Fitur Laporan   |       ✔️      |   
 
 # Thanks to Vincent-A5 :D
