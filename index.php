@@ -143,36 +143,7 @@ require ('koneksi.php');
               <p class="text-white">Berikut ini daftar makanan dan minuman di <i>Angkringan Mbah Singo.</i></p>
         </div>
 
-                    <!-- <?php
-                    $produk1  = mysqli_query($koneksi, "SELECT `id_produk`, `nama_produk`, `deskripsi_produk`, `harga`, `gambar`, `stok` FROM `produk` ORDER BY `id_produk` ASC");
-                    while ($row = mysqli_fetch_array($produk1)) {
-                    ?> -->
-
         <div class="row gy-4 pricing col-lg-12 justify-content-center" data-aos="fade-left">
-<!-- 
-<div class="col-lg-3 col-md-8 " data-aos="zoom-in" data-aos-delay="100">
-  <div class="box">
-   
-    <img src="admin/gambarproduk/<?php echo $row['gambar']; ?>" class="img-fluid rounded-circle" style="width:300px;" alt="">
-<hr>
-    <span id="boot-icon" class="bi bi-star" style="font-size: 19px; color: rgb(255, 210, 48); opacity: 1; -webkit-text-stroke: 0px rgb(251, 255, 0);"></span>
-    <span id="boot-icon" class="bi bi-star" style="font-size: 19px; color: rgb(255, 210, 48); opacity: 1; -webkit-text-stroke: 0px rgb(251, 255, 0);"></span>
-    <span id="boot-icon" class="bi bi-star" style="font-size: 19px; color: rgb(255, 210, 48); opacity: 1; -webkit-text-stroke: 0px rgb(251, 255, 0);"></span>
-    <span id="boot-icon" class="bi bi-star" style="font-size: 19px; color: rgb(255, 210, 48); opacity: 1; -webkit-text-stroke: 0px rgb(251, 255, 0);"></span>
-    <span id="boot-icon" class="bi bi-star" style="font-size: 19px; color: rgb(255, 210, 48); opacity: 1; -webkit-text-stroke: 0px rgb(251, 255, 0);"></span>
-
-    <div class="text-center">
-    <h5><?php echo $row['nama_produk']; ?></h5>
-    <p>Rp. <?php echo $row['harga']; ?></p>
-    </div>
-  </div>
-</div>
-
-<?php 
- }
-?>  -->
-
-
 <?php
                     $produk1  = mysqli_query($koneksi, "SELECT `id_produk`, `nama_produk`, `deskripsi_produk`, `harga`, `gambar`, `stok` FROM `produk` ORDER BY `id_produk` ASC");
                     while ($row = mysqli_fetch_array($produk1)) {
@@ -198,33 +169,6 @@ require ('koneksi.php');
 <?php 
  }
 ?> 
-
-<!-- 
-<?php
-                    $produk1  = mysqli_query($koneksi, "SELECT `id_produk`, `nama_produk`, `deskripsi_produk`, `harga`, `gambar`, `stok` FROM `produk` ORDER BY `id_produk` ASC");
-                    while ($row = mysqli_fetch_array($produk1)) {
-                    ?>
-<div class="col-lg-3 col-md-8" data-aos="zoom-in" data-aos-delay="300">
-<div class="box">
-   
-<img src="admin/gambarproduk/<?php echo $row['gambar']; ?>" class="img-fluid rounded-circle" style="width:300px;" alt="">
-<hr>
-   <span id="boot-icon" class="bi bi-star" style="font-size: 19px; color: rgb(255, 210, 48); opacity: 1; -webkit-text-stroke: 0px rgb(251, 255, 0);"></span>
-   <span id="boot-icon" class="bi bi-star" style="font-size: 19px; color: rgb(255, 210, 48); opacity: 1; -webkit-text-stroke: 0px rgb(251, 255, 0);"></span>
-   <span id="boot-icon" class="bi bi-star" style="font-size: 19px; color: rgb(255, 210, 48); opacity: 1; -webkit-text-stroke: 0px rgb(251, 255, 0);"></span>
-   <span id="boot-icon" class="bi bi-star" style="font-size: 19px; color: rgb(255, 210, 48); opacity: 1; -webkit-text-stroke: 0px rgb(251, 255, 0);"></span>
-   <span id="boot-icon" class="bi bi-star" style="font-size: 19px; color: rgb(255, 210, 48); opacity: 1; -webkit-text-stroke: 0px rgb(251, 255, 0);"></span>
-
-   <div class="text-center">
-   <h5><?php echo $row['nama_produk']; ?></h5>
-    <p>Rp. <?php echo $row['harga']; ?></p>
-   </div>
- </div>
-</div>
-
-<?php 
- }
-?>  -->
    
          </div>
         

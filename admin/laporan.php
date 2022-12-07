@@ -145,7 +145,7 @@ if(isset($_POST['updateprofile'])) {
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#myProfile">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#ProfileDetail">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -163,8 +163,64 @@ if(isset($_POST['updateprofile'])) {
                 </nav>
                 <!-- End of Topbar -->
 
-                 <!-- Modal Edit -->
-            <div class="modal fade" id="myProfile" role="dialog">
+                  <!-- Modal Profile Detail -->
+             <div class="modal fade" id="ProfileDetail" role="dialog" tabindex="-1">
+              <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                  <h4 class="modal-title"><i class="fas fa-user"></i> Informasi Profile</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST" action="#" enctype="multipart/form-data">
+                        <?php
+                        
+                        $query_edit1 = mysqli_query($koneksi, "SELECT * FROM user WHERE username='$user'");
+                        while ($row = mysqli_fetch_array($query_edit1)) {  
+        
+                        ?>
+                      
+                          
+                            
+                          <input type="hidden" name="txt_user" value="<?php echo $row['username']; ?>" class="form-control" disabled>      
+                       
+                        
+                        <div class="form-group">
+                          <label>Email</label>
+                          <input type="text" name="txt_email" value="<?php echo $row['email']; ?>" class="form-control" disabled>      
+                        </div>
+                        
+                        <div class="form-group">
+                          <label>Nama Lengkap</label>
+                          <input type="text" name="txt_nama" value="<?php echo $row['nama_lengkap']; ?>" class="form-control" disabled>      
+                        </div>
+
+                        <div class="form-group">
+                          <label>No. HP</label>
+                          <input type="number" name="txt_nohp" value="<?php echo $row['no_hp']; ?>" class="form-control" disabled>      
+                        </div>
+                        <div class="form-group">
+                          <label>Alamat Lengkap</label>
+                          <input type="text" name="txt_alamat" value="<?php echo $row['alamat']; ?>" class="form-control" disabled>      
+                        </div>
+                       
+                        <div class="modal-footer">  
+                          <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#myProfile" data-bs-dismiss="modal">Update</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                        <?php 
+                        }
+                        ?>        
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+                         <!-- Modal Edit -->
+                         <div class="modal fade" id="myProfile" role="dialog">
               <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
