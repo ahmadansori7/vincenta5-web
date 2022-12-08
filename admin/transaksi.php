@@ -317,7 +317,7 @@ if(isset($_POST['updateprofile'])) {
                                             <th>Id Transaksi</th>
                                             <th>Tanggal</th>
                                             <th>Nama Customer</th>
-                                            <th>Alamat</th>
+                                            <th>Pengiriman</th>
                                             <th>Order Produk</th>
                                             <th>Total</th>
                                             <th>Metode Pembayaran</th>
@@ -328,7 +328,7 @@ if(isset($_POST['updateprofile'])) {
                                     <tbody>
                                        
                             <?php
-                            $query = "SELECT transaksi.id_transaksi as id, transaksi.tanggal_transaksi as tanggal, produk.nama_produk as produk, user.nama_lengkap as nama, detail_transaksi.jumlah as jumlah, detail_transaksi.subtotal as total, user.alamat as alamat, detail_transaksi.metode as metode, detail_transaksi.status as status FROM detail_transaksi JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi JOIN produk ON produk.id_produk = detail_transaksi.id_produk JOIN user ON user.username = detail_transaksi.username order by transaksi.id_transaksi desc;";
+                            $query = "SELECT id_transaksi as id, tanggal_transaksi as tanggal,nama_lengkap as nama, subtotal as total, user.alamat as alamat, transaksi.metode as metode, transaksi.status as status FROM transaksi JOIN user ON transaksi.username = user.username order by transaksi.id_transaksi desc;";
                             $result = mysqli_query($koneksi, $query);
                             $no = 1;
                             while ($row = mysqli_fetch_array($result)) {
@@ -339,8 +339,6 @@ if(isset($_POST['updateprofile'])) {
                                 $totalbayar = $row['total'];
                                 $status = $row['status'];
                                 $metode = $row['metode'];
-                                $produk = $row['produk'];
-                                $jumlahbeli = $row['jumlah'];
                                 ?>
 
                             <tr>
@@ -349,7 +347,27 @@ if(isset($_POST['updateprofile'])) {
                                 <td><?php echo $tgltransaksi; ?></td>
                                 <td><?php echo $namalengkap; ?></td>
                                 <td><?php echo $alamat; ?></td>
-                                <td><?php echo $produk; ?> (<?php echo $jumlahbeli; ?>x)</td>
+                                <td><a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" title="Detail Order" href="#" data-toggle="modal" data-target="#myorder<?php echo $row['id']; ?>"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Detail Order</a></a></td>
+
+                            <!-- Modal Edit -->
+                            <div class="modal fade" id="myorder<?php echo $row['id']; ?>" role="dialog">
+                            <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                            <div class="modal-header">
+                            <h4 class="modal-title"><i class="fas fa-clipboard-list"></i> Order Detail</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                            
+                            
+                           sss
+                
+
+                            </div>
+                            </div>
+                            </div>
+
                                 <td><?php echo $totalbayar; ?></td>
                                 <td><?php echo $metode; ?></td>
                                 <td>

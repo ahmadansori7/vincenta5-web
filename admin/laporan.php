@@ -364,7 +364,7 @@ if(isset($_POST['updateprofile'])) {
 
 
                     <?php
-                    $totaltransaksi  = mysqli_query($koneksi, "select sum(detail_transaksi.subtotal) as totalpenghasilan from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where MONTH(transaksi.tanggal_transaksi)");
+                    $totaltransaksi  = mysqli_query($koneksi, "select sum(subtotal) as totalpenghasilan from transaksi where MONTH(tanggal_transaksi)");
                     while ($row = mysqli_fetch_array($totaltransaksi)) {
                     ?>
                         <!-- Earnings (Monthly) Card Example -->
@@ -538,73 +538,73 @@ var myLineChart = new Chart(ctx, {
       data: [
         
         <?php
-        $totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(detail_transaksi.subtotal),0) as januari from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where MONTH(transaksi.tanggal_transaksi) = 01 AND YEAR(transaksi.tanggal_transaksi)");
+        $totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(subtotal),0) as januari from transaksi where MONTH(tanggal_transaksi) = 01 AND YEAR(tanggal_transaksi)");
         while ($row = mysqli_fetch_array($totaltransaksi)) {?>
         <?php echo $row['januari']; ?>
         <?php 
           }
         ?>, <?php
-        $totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(detail_transaksi.subtotal),0) as februari from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where MONTH(transaksi.tanggal_transaksi) = 02 AND YEAR(transaksi.tanggal_transaksi)");
+        $totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(subtotal),0) as februari from transaksi where MONTH(tanggal_transaksi) = 02 AND YEAR(tanggal_transaksi)");
         while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['februari']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(detail_transaksi.subtotal),0) as maret from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where MONTH(transaksi.tanggal_transaksi) = 03 AND YEAR(transaksi.tanggal_transaksi)");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(subtotal),0) as maret from transaksi where MONTH(tanggal_transaksi) = 03 AND YEAR(tanggal_transaksi)");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['maret']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(detail_transaksi.subtotal),0) as april from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where MONTH(transaksi.tanggal_transaksi) = 04 AND YEAR(transaksi.tanggal_transaksi)");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(subtotal),0) as april from transaksi where MONTH(tanggal_transaksi) = 04 AND YEAR(tanggal_transaksi)");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['april']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(detail_transaksi.subtotal),0) as mei from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where MONTH(transaksi.tanggal_transaksi) = 05 AND YEAR(transaksi.tanggal_transaksi)");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(subtotal),0) as mei from transaksi where MONTH(tanggal_transaksi) = 05 AND YEAR(tanggal_transaksi)");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['mei']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(detail_transaksi.subtotal),0) as juni from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where MONTH(transaksi.tanggal_transaksi) = 06 AND YEAR(transaksi.tanggal_transaksi)");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(subtotal),0) as juni from transaksi where MONTH(tanggal_transaksi) = 06 AND YEAR(tanggal_transaksi)");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['juni']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(detail_transaksi.subtotal),0) as juli from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where MONTH(transaksi.tanggal_transaksi) = 07 AND YEAR(transaksi.tanggal_transaksi)");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(subtotal),0) as juli from transaksi where MONTH(tanggal_transaksi) = 07 AND YEAR(tanggal_transaksi)");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['juli']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(detail_transaksi.subtotal),0) as agustus from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where MONTH(transaksi.tanggal_transaksi) = 08 AND YEAR(transaksi.tanggal_transaksi)");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(subtotal),0) as agustus from transaksi where MONTH(tanggal_transaksi) = 08 AND YEAR(tanggal_transaksi)");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['agustus']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(detail_transaksi.subtotal),0) as september from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where MONTH(transaksi.tanggal_transaksi) = 09 AND YEAR(transaksi.tanggal_transaksi)");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(subtotal),0) as september from transaksi where MONTH(tanggal_transaksi) = 09 AND YEAR(tanggal_transaksi)");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['september']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(detail_transaksi.subtotal),0) as oktober from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where MONTH(transaksi.tanggal_transaksi) = 10 AND YEAR(transaksi.tanggal_transaksi)");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(subtotal),0) as oktober from transaksi where MONTH(tanggal_transaksi) = 10 AND YEAR(tanggal_transaksi)");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['oktober']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(detail_transaksi.subtotal),0) as november from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where MONTH(transaksi.tanggal_transaksi) = 11 AND YEAR(transaksi.tanggal_transaksi)");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(subtotal),0) as november from transaksi where MONTH(tanggal_transaksi) = 11 AND YEAR(tanggal_transaksi)");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['november']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(detail_transaksi.subtotal),0) as desember from transaksi join detail_transaksi on transaksi.id_transaksi = detail_transaksi.id_transaksi where MONTH(transaksi.tanggal_transaksi) = 12 AND YEAR(transaksi.tanggal_transaksi)");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(sum(subtotal),0) as desember from transaksi where MONTH(tanggal_transaksi) = 12 AND YEAR(tanggal_transaksi)");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
 <?php echo $row['desember']; ?>
 <?php 
