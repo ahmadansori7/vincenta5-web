@@ -163,7 +163,15 @@ if(isset($_POST['updateprofile'])) {
                 </nav>
                 <!-- End of Topbar -->
 
-                 <!-- Modal Profile Detail -->
+                
+                <?php
+                        
+                        $query_edit1 = mysqli_query($koneksi, "SELECT * FROM user WHERE username='$user'");
+                        while ($row = mysqli_fetch_array($query_edit1)) {  
+        
+                        ?>
+
+             <!-- Modal Profile Detail -->
              <div class="modal fade" id="ProfileDetail" role="dialog" tabindex="-1">
               <div class="modal-dialog">
                 <!-- Modal content-->
@@ -173,46 +181,58 @@ if(isset($_POST['updateprofile'])) {
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                   </div>
                   <div class="modal-body">
-                    <form method="POST" action="#" enctype="multipart/form-data">
-                        <?php
-                        
-                        $query_edit1 = mysqli_query($koneksi, "SELECT * FROM user WHERE username='$user'");
-                        while ($row = mysqli_fetch_array($query_edit1)) {  
-        
-                        ?>
-                      
-                          
-                            
-                          <input type="hidden" name="txt_user" value="<?php echo $row['username']; ?>" class="form-control" disabled>      
-                       
-                        
-                        <div class="form-group">
-                          <label>Email</label>
-                          <input type="text" name="txt_email" value="<?php echo $row['email']; ?>" class="form-control" disabled>      
-                        </div>
-                        
-                        <div class="form-group">
-                          <label>Nama Lengkap</label>
-                          <input type="text" name="txt_nama" value="<?php echo $row['nama_lengkap']; ?>" class="form-control" disabled>      
-                        </div>
+                    
+                  
+                  <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Nama</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                    <?php echo $row['nama_lengkap']; ?>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                    <?php echo $row['email']; ?>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">No. HP</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                    <?php echo $row['no_hp']; ?>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Alamat</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                    <?php echo $row['alamat']; ?>
+                    </div>
+                  </div>
+                
+                  <hr>
 
-                        <div class="form-group">
-                          <label>No. HP</label>
-                          <input type="number" name="txt_nohp" value="<?php echo $row['no_hp']; ?>" class="form-control" disabled>      
-                        </div>
-                        <div class="form-group">
-                          <label>Alamat Lengkap</label>
-                          <input type="text" name="txt_alamat" value="<?php echo $row['alamat']; ?>" class="form-control" disabled>      
-                        </div>
-                       
-                        <div class="modal-footer">  
-                          <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#myProfile" data-bs-dismiss="modal">Update</button>
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                        <?php 
+                  <?php 
                         }
-                        ?>        
-                      </form>
+                        ?>    
+
+                  <div class="row">
+                    <div class="col-sm-12 text-right">
+                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#myProfile" data-bs-dismiss="modal">Update</button>
+                    </div>
+                  </div>
+                  </div>
+              
                   </div>
                 </div>
               </div>
@@ -282,7 +302,7 @@ if(isset($_POST['updateprofile'])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Transaksi</h1> <a href="export-data-transaksi.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Export Data</a>
+                        <h1 class="h3 mb-0 text-gray-800">Transaksi</h1> <a href="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Export Data</a>
                         
                     </div>
 
@@ -300,6 +320,7 @@ if(isset($_POST['updateprofile'])) {
                                             <th>Alamat</th>
                                             <th>Order Produk</th>
                                             <th>Total</th>
+                                            <th>Metode Pembayaran</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
@@ -307,16 +328,19 @@ if(isset($_POST['updateprofile'])) {
                                     <tbody>
                                        
                             <?php
-                            $query = "select transaksi.id_transaksi as id, transaksi.tanggal_transaksi as tgl, user.nama_lengkap as nama, user.alamat as alamat, transaksi.total_bayar as total_bayar, transaksi.status as status FROM transaksi JOIN user ON transaksi.username=user.username ORDER BY tgl DESC";
+                            $query = "SELECT transaksi.id_transaksi as id, transaksi.tanggal_transaksi as tanggal, produk.nama_produk as produk, user.nama_lengkap as nama, detail_transaksi.jumlah as jumlah, detail_transaksi.subtotal as total, user.alamat as alamat, detail_transaksi.metode as metode, detail_transaksi.status as status FROM detail_transaksi JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi JOIN produk ON produk.id_produk = detail_transaksi.id_produk JOIN user ON user.username = detail_transaksi.username order by transaksi.id_transaksi desc;";
                             $result = mysqli_query($koneksi, $query);
                             $no = 1;
                             while ($row = mysqli_fetch_array($result)) {
                                 $idtransaksi = $row['id'];
-                                $tgltransaksi = $row['tgl'];
+                                $tgltransaksi = $row['tanggal'];
                                 $namalengkap = $row['nama'];
                                 $alamat = $row['alamat'];
-                                $totalbayar = $row['total_bayar'];
+                                $totalbayar = $row['total'];
                                 $status = $row['status'];
+                                $metode = $row['metode'];
+                                $produk = $row['produk'];
+                                $jumlahbeli = $row['jumlah'];
                                 ?>
 
                             <tr>
@@ -325,22 +349,9 @@ if(isset($_POST['updateprofile'])) {
                                 <td><?php echo $tgltransaksi; ?></td>
                                 <td><?php echo $namalengkap; ?></td>
                                 <td><?php echo $alamat; ?></td>
-
-                                <?php 
-                                $query1 = "select produk.nama_produk as produk, dtl_transaksi.jumlah_beli as jumlah_beli from dtl_transaksi join produk on dtl_transaksi.id_produk = produk.id_produk where dtl_transaksi.id_transaksi = '$idtransaksi'";
-                                $result1 = mysqli_query($koneksi, $query1);
-                                while ($row = mysqli_fetch_array($result1)) {
-                                $produk = $row['produk'];
-                                $jumlah_beli = $row['jumlah_beli']; 
-                                ?>
-
-                                <td><?php echo $produk; ?> (<?php echo $jumlah_beli; ?>x)</td>
-
-                                <?php
-                                 }
-                                ?>
-
+                                <td><?php echo $produk; ?> (<?php echo $jumlahbeli; ?>x)</td>
                                 <td><?php echo $totalbayar; ?></td>
+                                <td><?php echo $metode; ?></td>
                                 <td>
 
                                 <?php 
@@ -351,7 +362,7 @@ if(isset($_POST['updateprofile'])) {
                                         echo "<a class='btn btn-success btn-circle' title='Transaksi sudah Selesai' href='#'><i class='fas fa-check'></i></a>";
                                     }
                                     
-                                   
+                                        echo "<a class='btn btn-danger btn-circle' title='Cancel Pesanan' href='cancel-trans.php?id=$idtransaksi'><i class='fas fa-trash'></i></a>";
 
                                     ?>
             
