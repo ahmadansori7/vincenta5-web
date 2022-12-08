@@ -347,27 +347,67 @@ if(isset($_POST['updateprofile'])) {
                                 <td><?php echo $tgltransaksi; ?></td>
                                 <td><?php echo $namalengkap; ?></td>
                                 <td><?php echo $alamat; ?></td>
-                                <td><a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" title="Detail Order" href="#" data-toggle="modal" data-target="#myorder<?php echo $row['id']; ?>"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Detail Order</a></a></td>
-
-                            <!-- Modal Edit -->
-                            <div class="modal fade" id="myorder<?php echo $row['id']; ?>" role="dialog">
+                                <td><a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" title="Detail Order" href="#" data-toggle="modal" data-target="#myorder<?php echo $row['id']; ?>"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Detail Order</a></a>
+                            
+                                        <!-- Modal Detail Order -->
+                         <div class="modal fade" id="myorder<?php echo $row['id']; ?>" role="dialog">
                             <div class="modal-dialog">
                             <!-- Modal content-->
                             <div class="modal-content">
                             <div class="modal-header">
-                            <h4 class="modal-title"><i class="fas fa-clipboard-list"></i> Order Detail</h4>
+                            <h4 class="modal-title"><i class="fas fa-clipboard-list"></i> Order Detail (<?php echo $row['id']; ?>)</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
                             
-                            
-                           sss
+            
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Nama Produk</th>
+                                            <th>Jumlah</th>
+                                            <th>Total Harga Item</th>
+                                        </tr>
+                                    </thead>
+                                   
+                                    <tbody>
+                                       
+                            <?php
+                            $query = "SELECT detail_transaksi.id_transaksi as id, produk.nama_produk as produk, detail_transaksi.jumlah as jumlah, detail_transaksi.totalhargaitem as total from detail_transaksi join produk on detail_transaksi.id_produk = produk.id_produk where detail_transaksi.id_transaksi = 'TRS0000001';";
+                            $result = mysqli_query($koneksi, $query);
+                            $no = 1;
+                            while ($row = mysqli_fetch_array($result)) {
+                                $idtransaksi = $row['id'];
+                                $produk = $row['produk'];
+                                $jumlah = $row['jumlah'];
+                                $total = $row['total'];
+                                ?>
+
+                            <tr>
+                                <td><?php echo $no; ?></td>
+                                <td><?php echo $produk; ?></td>
+                                <td><?php echo $jumlah; ?>x</td>
+                                <td><?php echo $total; ?></td>
+                            </tr>
+
+                            <?php
+                            $no++;
+                            } ?>
+
+                                    </tbody>
+                                </table>
+                    
                 
 
                             </div>
                             </div>
                             </div>
+                            
+                            </td>
 
+
+                                
                                 <td><?php echo $totalbayar; ?></td>
                                 <td><?php echo $metode; ?></td>
                                 <td>
@@ -426,6 +466,9 @@ if(isset($_POST['updateprofile'])) {
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+
+
+     
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
