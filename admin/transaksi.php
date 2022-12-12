@@ -1,6 +1,7 @@
 <?php
 require ('..\koneksi.php');
 session_start();
+error_reporting(0); 
 
 if (!isset($_SESSION["ses"])) {
     echo "<script>
@@ -27,6 +28,19 @@ if(isset($_POST['updateprofile'])) {
     alert (' Profile Berhasil Diupdate!');
     </script>";
     } 
+
+
+    if(isset($_POST['batal'])) {
+
+        $id = $_POST['id_transaksi'];
+        $alasan = $_POST['alasan'];
+    
+        $query  = mysqli_query($koneksi, "UPDATE `transaksi` SET `status`='2',`catatan`='$alasan' WHERE `id_transaksi` = '$id'");
+        $result = mysqli_query($koneksi, $query);
+        echo "<script>
+        alert (' Transaksi Berhasil Dibatalkan!');
+        </script>";
+        } 
 
 ?>
 
@@ -389,7 +403,7 @@ if(isset($_POST['updateprofile'])) {
                                 <td><?php echo $produk; ?></td>
                                 <td><?php echo $jumlah; ?>x</td>
                                 <td><?php echo $total; ?></td>
-                            </tr>
+                            </tr>  
 
                             <?php
                             $no++;
@@ -415,13 +429,15 @@ if(isset($_POST['updateprofile'])) {
                                 <?php 
                                     if($status=="0") {
                                         echo "<a class='btn btn-warning btn-circle' title='Transaksi sedang Diproses' href='proses-trans.php?id=$idtransaksi'><i class='fas fa-clock'></i></a>";
+                                        echo "<a class='btn btn-danger btn-circle' title='Batalkan Transaksi' href='#' data-toggle='modal' data-target='#cancelorder'>&times;</a>";
+                                        
+                                        
                                     }
-                                    else {
-                                        echo "<a class='btn btn-success btn-circle' title='Transaksi sudah Selesai' href='#'><i class='fas fa-check'></i></a>";
+                                    elseif ($status=="1") {
+                                        echo "<a class='btn btn-success btn-circle' title='Transaksi Selesai' href='#'><i class='fas fa-check'></i></a>";
+                                    } else {
+                                        echo "<a class='btn btn-danger btn-circle' title='Transaksi Dibatalkan' href='#'>&times;</a>";
                                     }
-                                    
-                                        echo "<a class='btn btn-danger btn-circle' title='Cancel Pesanan' href='cancel-trans.php?id=$idtransaksi'><i class='fas fa-trash'></i></a>";
-
                                     ?>
             
                                 </td>
@@ -445,6 +461,45 @@ if(isset($_POST['updateprofile'])) {
 
             </div>
             <!-- End of Main Content -->
+
+             <!-- Modal Cancel Order -->
+             <div class="modal fade" id="cancelorder" role="dialog">
+                            <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                            <div class="modal-header">
+                            <h4 class="modal-title"><i class="fas fa-clipboard-list"></i> Batalkan Transaksi</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                            
+                            <form method="POST" action="#" enctype="multipart/form-data">
+                        <?php
+                        $id = $idtransaksi;
+                        $query_edit = mysqli_query($koneksi, "SELECT * FROM transaksi WHERE id_transaksi='$id'");
+                        while ($row = mysqli_fetch_array($query_edit)) {  
+                        ?>
+                        <input type="hidden" name="id_transaksi" value="<?php echo $id; ?>">
+                        <div class="form-group">
+                          <label>Alasan Dibatalkan :</label>
+                          <input type="text" name="alasan" class="form-control" required>      
+                        </div>
+                       
+                        <div class="modal-footer">  
+                          <button name="batal"  class="btn btn-primary">Batalkan</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                        <?php 
+                        }
+                        ?>        
+                      </form>
+
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+
+          
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
