@@ -416,7 +416,7 @@ if(isset($_POST['updateprofile'])) {
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Statistik Penghasilan Minggu Ini</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Statistik Penghasilan 7 Hari Terakhir</h6>
                                     <div class="dropdown no-arrow">
                                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                     </div>
@@ -534,8 +534,19 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 var ctx = document.getElementById("chart1");
 var myLineChart = new Chart(ctx, {
   type: 'line',
+
+  <?php
+  $now = date('Y-m-d');
+  $data1 = $tgl_kemarin =date('Y-m-d', strtotime("-1 day", strtotime(date("Y-m-d"))));
+  $data2 = $tgl_kemarin =date('Y-m-d', strtotime("-2 day", strtotime(date("Y-m-d"))));
+  $data3 = $tgl_kemarin =date('Y-m-d', strtotime("-3 day", strtotime(date("Y-m-d"))));
+  $data4 = $tgl_kemarin =date('Y-m-d', strtotime("-4 day", strtotime(date("Y-m-d"))));
+  $data5 = $tgl_kemarin =date('Y-m-d', strtotime("-5 day", strtotime(date("Y-m-d"))));
+  $data6 = $tgl_kemarin =date('Y-m-d', strtotime("-6 day", strtotime(date("Y-m-d"))));
+
+  ?>
   data: {
-    labels: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"],
+    labels: ["<?php echo $data6; ?>", "<?php echo $data5; ?>", "<?php echo $data4; ?>", "<?php echo $data3; ?>", "<?php echo $data2; ?>", "<?php echo $data1; ?>", "<?php echo $now; ?>"],
     datasets: [{
       label: "Penghasilan",
       lineTension: 0.3,
@@ -550,45 +561,45 @@ var myLineChart = new Chart(ctx, {
       pointHitRadius: 10,
       pointBorderWidth: 2,
       data: [<?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(subtotal),0) as senin from transaksi where tanggal_transaksi = CURRENT_DATE() - interval 3 day");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(subtotal),0) as data6 from transaksi where tanggal_transaksi = CURRENT_DATE() - interval 6 day");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
-<?php echo $row['senin']; ?>
+<?php echo $row['data6']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(subtotal),0) as selasa from transaksi where tanggal_transaksi = CURRENT_DATE() - interval 2 day");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(subtotal),0) as data5 from transaksi where tanggal_transaksi = CURRENT_DATE() - interval 5 day");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
-<?php echo $row['selasa']; ?>
+<?php echo $row['data5']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(subtotal),0) as rabu from transaksi where tanggal_transaksi = CURRENT_DATE() - interval 1 day");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(subtotal),0) as data4 from transaksi where tanggal_transaksi = CURRENT_DATE() - interval 4 day");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
-<?php echo $row['rabu']; ?>
+<?php echo $row['data4']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(subtotal),0) as kamis from transaksi where tanggal_transaksi = CURRENT_DATE();");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(subtotal),0) as data3 from transaksi where tanggal_transaksi = CURRENT_DATE() - interval 3 day;");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
-<?php echo $row['kamis']; ?>
+<?php echo $row['data3']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(subtotal),0) as jumat from transaksi where tanggal_transaksi = CURRENT_DATE() + interval 1 day");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(subtotal),0) as data2 from transaksi where tanggal_transaksi = CURRENT_DATE() - interval 2 day");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
-<?php echo $row['jumat']; ?>
+<?php echo $row['data2']; ?>
 <?php 
 }
 ?> , <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(subtotal),0) as sabtu from transaksi where tanggal_transaksi = CURRENT_DATE() + interval 2 day");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(subtotal),0) as data1 from transaksi where tanggal_transaksi = CURRENT_DATE() - interval 1 day");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
-<?php echo $row['sabtu']; ?>
+<?php echo $row['data1']; ?>
 <?php 
 }
 ?>, <?php
-$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(subtotal),0) as minggu from transaksi where tanggal_transaksi = CURRENT_DATE() + interval 3 day");
+$totaltransaksi  = mysqli_query($koneksi, "select COALESCE(SUM(subtotal),0) as now from transaksi where tanggal_transaksi = CURRENT_DATE()");
 while ($row = mysqli_fetch_array($totaltransaksi)) {?>
-<?php echo $row['minggu']; ?>
+<?php echo $row['now']; ?>
 <?php 
 }
 ?>],
