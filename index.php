@@ -145,20 +145,15 @@ require ('koneksi.php');
 
         <div class="row gy-4 pricing col-lg-12 justify-content-center" data-aos="fade-left">
 <?php
-                    $produk1  = mysqli_query($koneksi, "SELECT `id_produk`, `nama_produk`, `deskripsi_produk`, `harga`, `gambar`, `stok` FROM `produk` ORDER BY `id_produk` ASC");
+                    $produk1  = mysqli_query($koneksi, "SELECT `id_produk`, `nama_produk`, `deskripsi_produk`, `harga`, `gambar`, `stok` FROM `produk` order by id_produk desc limit 4;");
                     while ($row = mysqli_fetch_array($produk1)) {
                     ?>
 <div class="col-lg-3 col-md-8" data-aos="zoom-in" data-aos-delay="200">
 <div class="box">
    
-<img src="admin/gambarproduk/<?php echo $row['gambar']; ?>" class="img-fluid rounded-circle" style="width:300px;" alt="">
+<img src="admin/gambarproduk/<?php echo $row['gambar']; ?>" class="img-fluid rounded-circle" style="width:250px;height:200px;" alt="">
 <hr>
-   <span id="boot-icon" class="bi bi-star" style="font-size: 19px; color: rgb(255, 210, 48); opacity: 1; -webkit-text-stroke: 0px rgb(251, 255, 0);"></span>
-   <span id="boot-icon" class="bi bi-star" style="font-size: 19px; color: rgb(255, 210, 48); opacity: 1; -webkit-text-stroke: 0px rgb(251, 255, 0);"></span>
-   <span id="boot-icon" class="bi bi-star" style="font-size: 19px; color: rgb(255, 210, 48); opacity: 1; -webkit-text-stroke: 0px rgb(251, 255, 0);"></span>
-   <span id="boot-icon" class="bi bi-star" style="font-size: 19px; color: rgb(255, 210, 48); opacity: 1; -webkit-text-stroke: 0px rgb(251, 255, 0);"></span>
-   <span id="boot-icon" class="bi bi-star" style="font-size: 19px; color: rgb(255, 210, 48); opacity: 1; -webkit-text-stroke: 0px rgb(251, 255, 0);"></span>
-
+  
    <div class="text-center">
    <h5><?php echo $row['nama_produk']; ?></h5>
     <p>Rp. <?php echo $row['harga']; ?></p>
@@ -216,27 +211,46 @@ require ('koneksi.php');
           </div>
 
           <div class="col-lg-8" >
-            <form action="forms/contact.php" method="post" class="php-email-form">
-              <div class="row gy-4">
+          <form id="salsa" method="POST" accept-charset="utf-8">
+          <div class="row gy-4">
 
-                <div class="col-md-12">
-                  <input type="text" name="name" class="form-control" placeholder="Nama Lengkap" required>
-                </div>
+          <div class="col-md-12">
+          <div class="form-group">
+          <div class="input nama"><label for="nama">Nama</label><input placeholder="" name="nama" type="text" class="form-control" id="nama" required /></div>
+          </div>
+          </div>
 
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="6" placeholder="Kritik dan Saran" required></textarea>
-                </div>
+          <div class="col-md-12">
+          <div class="form-group">
+          <div class="input pesan"><label for="pesan">Kritik dan Saran</label><textarea class="form-control" rows="4" id="pesan" name="pesan" placeholder=""></textarea></div>
+          </div>
+          </div>
 
-                <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
+          <div class="col-md-12">
+          <div class="form-group">
+          <div class="submit"><button type="submit" id="btn-wa" class="btn btn-primary btn-user btn-block col-md-12 text-center">Send</button>
 
-                  <button class="col-md-12 text-center" type="submit">Kirim</button>
-                </div>
+            <script>
+$("#btn-wa").click(function(){
+    var nomor = document.getElementById('nomer').value;
+    var pesan = document.getElementById('pesan').value;
+    var win = window.open('https://api.whatsapp.com/send?phone='+nomor+'&text='+pesan);
+    if (win) {
+        //Browser has allowed it to be opened
+        win.focus();
+    } else {
+        //Browser has blocked it
+        alert('Please allow popups for this website');
+    }
+return false;
+});
+</script>
 
-              </div>
-            </form>
+          </div>
+          </div>
+
+          </div>
+          </form>
 
           </div>
 
@@ -301,6 +315,8 @@ require ('koneksi.php');
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+
+
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
