@@ -361,7 +361,7 @@ if(isset($_POST['updateprofile'])) {
                                 <td><?php echo $tgltransaksi; ?></td>
                                 <td><?php echo $namalengkap; ?></td>
                                 <td><?php echo $alamat; ?></td>
-                                <td><a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" title="Detail Order" href="" data-toggle="modal" data-target="#myorder<?php echo $row['id']; ?>"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Detail Order</a></a>
+                                <td><a class="btn btn-sm btn-primary shadow-sm" title="Detail Order" href="" data-toggle="modal" data-target="#myorder<?php echo $row['id']; ?>"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Detail Order</a></a>
                             
                                 <!-- Modal Detail Order -->
                          <div class="modal fade" id="myorder<?php echo $row['id']; ?>" role="dialog">
