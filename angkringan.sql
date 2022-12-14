@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2022 at 04:41 AM
+-- Generation Time: Dec 14, 2022 at 01:53 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.28
 
@@ -40,7 +40,9 @@ CREATE TABLE `detail_transaksi` (
 
 INSERT INTO `detail_transaksi` (`id_transaksi`, `id_produk`, `jumlah`, `totalhargaitem`) VALUES
 ('TRS0000001', 'PDK0000005', 15, 15000),
-('TRS0000001', 'PDK0000001', 2, 10000);
+('TRS0000001', 'PDK0000001', 2, 4000),
+('TRS0000002', 'PDK0000001', 5, 100000),
+('TRS0000002', 'PDK0000002', 2, 12000);
 
 -- --------------------------------------------------------
 
@@ -85,6 +87,7 @@ CREATE TABLE `transaksi` (
   `pengiriman` varchar(150) DEFAULT NULL,
   `metode` enum('Tunai','COD','Transfer') DEFAULT NULL,
   `status` enum('0','1','2') DEFAULT NULL,
+  `catatan` text DEFAULT NULL,
   `tanggal_transaksi` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -92,8 +95,9 @@ CREATE TABLE `transaksi` (
 -- Dumping data for table `transaksi`
 --
 
-INSERT INTO `transaksi` (`id_transaksi`, `username`, `subtotal`, `pengiriman`, `metode`, `status`, `tanggal_transaksi`) VALUES
-('TRS0000001', 'altix', 15000, 'Nganjuk', 'Tunai', '0', '2022-12-08');
+INSERT INTO `transaksi` (`id_transaksi`, `username`, `subtotal`, `pengiriman`, `metode`, `status`, `catatan`, `tanggal_transaksi`) VALUES
+('TRS0000001', 'altix', 19000, 'Nganjuk', 'Tunai', '1', '', '2022-12-12'),
+('TRS0000002', 'ansori', 10000, 'jl', 'Tunai', '0', '', '2022-12-10');
 
 -- --------------------------------------------------------
 
@@ -116,7 +120,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`username`, `email`, `password`, `nama_lengkap`, `no_hp`, `alamat`, `level`) VALUES
-('altix', 'variousra@gmail.com', '123', 'Maulana Akbar', 85236167349, 'Kawedanan, Magetan', 'admin');
+('altix', 'variousra@gmail.com', '123', 'Maulana Akbar', 85236167349, 'Kawedanan, Magetan', 'admin'),
+('ansori', 'ansori', 'ansori', 'ansori', 85947382717, 'Nganjuk', 'admin');
 
 --
 -- Indexes for dumped tables
