@@ -316,7 +316,7 @@ if(isset($_POST['updateprofile'])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Transaksi</h1> <a href="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Export Data</a>
+                        <h1 class="h3 mb-0 text-gray-800">Transaksi</h1> <a href="export-data-transaksi.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Export Data</a>
                         
                     </div>
 
@@ -344,7 +344,7 @@ if(isset($_POST['updateprofile'])) {
                             <?php
                             $query = "SELECT id_transaksi as id, tanggal_transaksi as tanggal,nama_lengkap as nama, subtotal as total, user.alamat as alamat, transaksi.metode as metode, transaksi.status as status FROM transaksi JOIN user ON transaksi.username = user.username order by transaksi.id_transaksi desc;";
                             $result = mysqli_query($koneksi, $query);
-                            $no = 1;
+                            $no1 = 1;
                             while ($row = mysqli_fetch_array($result)) {
                                 $idtransaksi = $row['id'];
                                 $tgltransaksi = $row['tanggal'];
@@ -356,30 +356,29 @@ if(isset($_POST['updateprofile'])) {
                                 ?>
 
                             <tr>
-                                <td><?php echo $no; ?></td>
+                                <td><?php echo $no1; ?></td>
                                 <td><?php echo $idtransaksi; ?></td>
                                 <td><?php echo $tgltransaksi; ?></td>
                                 <td><?php echo $namalengkap; ?></td>
                                 <td><?php echo $alamat; ?></td>
-                                <td><a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" title="Detail Order" href="#" data-toggle="modal" data-target="#myorder<?php echo $row['id']; ?>"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Detail Order</a></a>
+                                <td><a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" title="Detail Order" href="" data-toggle="modal" data-target="#myorder<?php echo $row['id']; ?>"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Detail Order</a></a>
                             
-                                        <!-- Modal Detail Order -->
+                                <!-- Modal Detail Order -->
                          <div class="modal fade" id="myorder<?php echo $row['id']; ?>" role="dialog">
                             <div class="modal-dialog">
                             <!-- Modal content-->
                             <div class="modal-content">
                             <div class="modal-header">
-                            <h4 class="modal-title"><i class="fas fa-clipboard-list"></i> Order Detail (<?php echo $row['id']; ?>)</h4>
+                            <h4 class="modal-title"><i class="fas fa-clipboard-list"></i> Detail Order (<?php echo $row['id']; ?>)</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
-                            
-            
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>No</th>
                                             <th>Nama Produk</th>
+                                            <th>Harga@</th>
                                             <th>Jumlah</th>
                                             <th>Total Harga Item</th>
                                         </tr>
@@ -388,12 +387,15 @@ if(isset($_POST['updateprofile'])) {
                                     <tbody>
                                        
                             <?php
-                            $query = "SELECT detail_transaksi.id_transaksi as id, produk.nama_produk as produk, detail_transaksi.jumlah as jumlah, detail_transaksi.totalhargaitem as total from detail_transaksi join produk on detail_transaksi.id_produk = produk.id_produk where detail_transaksi.id_transaksi = 'TRS0000001';";
-                            $result = mysqli_query($koneksi, $query);
+
+                            $id = $idtransaksi; 
+                            $query1 = "SELECT produk.nama_produk as produk, produk.harga as harga, detail_transaksi.jumlah as jumlah, detail_transaksi.totalhargaitem as total from detail_transaksi join produk on detail_transaksi.id_produk = produk.id_produk where detail_transaksi.id_transaksi = '$id';";
+                            $result1 = mysqli_query($koneksi, $query1);
                             $no = 1;
-                            while ($row = mysqli_fetch_array($result)) {
-                                $idtransaksi = $row['id'];
+                            while ($row = mysqli_fetch_array($result1)) {
+                                
                                 $produk = $row['produk'];
+                                $harga = $row['harga'];
                                 $jumlah = $row['jumlah'];
                                 $total = $row['total'];
                                 ?>
@@ -401,6 +403,7 @@ if(isset($_POST['updateprofile'])) {
                             <tr>
                                 <td><?php echo $no; ?></td>
                                 <td><?php echo $produk; ?></td>
+                                <td><?php echo $harga; ?></td>
                                 <td><?php echo $jumlah; ?>x</td>
                                 <td><?php echo $total; ?></td>
                             </tr>  
@@ -409,6 +412,7 @@ if(isset($_POST['updateprofile'])) {
                             $no++;
                             } ?>
 
+                            
                                     </tbody>
                                 </table>
                     
@@ -429,6 +433,7 @@ if(isset($_POST['updateprofile'])) {
                                 <?php 
                                     if($status=="0") {
                                         echo "<a class='btn btn-warning btn-circle' title='Transaksi sedang Diproses' href='proses-trans.php?id=$idtransaksi'><i class='fas fa-clock'></i></a>";
+                                        echo " ";
                                         echo "<a class='btn btn-danger btn-circle' title='Batalkan Transaksi' href='#' data-toggle='modal' data-target='#cancelorder'>&times;</a>";
                                         
                                         
@@ -444,7 +449,7 @@ if(isset($_POST['updateprofile'])) {
                             </tr>
 
                             <?php
-                            $no++;
+                            $no1++;
                             } ?>
 
                                     </tbody>
@@ -482,7 +487,7 @@ if(isset($_POST['updateprofile'])) {
                         <input type="hidden" name="id_transaksi" value="<?php echo $id; ?>">
                         <div class="form-group">
                           <label>Alasan Dibatalkan :</label>
-                          <input type="text" name="alasan" class="form-control" required>      
+                          <textarea  type="text" name="alasan" class="form-control" required>      </textarea>
                         </div>
                        
                         <div class="modal-footer">  
