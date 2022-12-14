@@ -21,7 +21,7 @@ Fitur yang masih dikembangkan :
 | :--------------: | :------------: |
 | Fitur Dashboard  |       ✔️      |   
 | Fitur Produk     |       ✔️      |   
-| Fitur Transaksi  |  On progress   |
-| Fitur Laporan   |       ✔️      |   
+| Fitur Transaksi  |       ✔️      |   
+| Fitur Laporan    |       ✔️      |   
 
 # Thanks to Vincent-A5 :D
