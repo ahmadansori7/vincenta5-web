@@ -6,22 +6,15 @@
 V-Angkringan adalah aplikasi web UMKM yang dikembangkan oleh Kelompok Vincent A5
 
 # Features
-Karena aplikasi ini masih dalam tahap pengembangan, hanya beberapa fitur yang tersedia saat ini :
 
 |       Fitur      |  Ketersediaan  |
 | :--------------: | :------------: |
-| Home             |       ✔️       |
-| Login            |       ✔️       |
-| Register         |       ✔️       |
-
-
-Fitur yang masih dikembangkan :
-
-|      Fitur       |  Ketersediaan  |
-| :--------------: | :------------: |
+| Home             |       ✔️      |
+| Login            |       ✔️      |
+| Register         |       ✔️      |
 | Fitur Dashboard  |       ✔️      |   
 | Fitur Produk     |       ✔️      |   
 | Fitur Transaksi  |       ✔️      |   
-| Fitur Laporan    |       ✔️      |   
+| Fitur Laporan    |       ✔️      | 
 
 # Thanks to Vincent-A5 :D
