@@ -18,7 +18,7 @@ if (mysqli_num_rows($result) > 0) {
   </script>";
 } else {
 
-    $query  = "insert into user values('$user','$email','$pass','$nama','$nohp','$alamat','user')";
+    $query  = "insert into user values('$user','$email','$pass','$nama','$nohp','$alamat','pelanggan','','')";
     $result = mysqli_query($koneksi, $query);
     echo "<script>
     eval(\"parent.location='login.php '\");
@@ -120,7 +120,7 @@ if (mysqli_num_rows($result) > 0) {
                                         </div>
 
                                         <div class="form-group">
-                                            <input type="text" name="txt_email"  class="form-control form-control-user"
+                                            <input type="email" name="txt_email"  class="form-control form-control-user"
                                              
                                                 placeholder="Email" required>
                                         </div>
