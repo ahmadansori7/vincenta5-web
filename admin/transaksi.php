@@ -35,7 +35,7 @@ if(isset($_POST['updateprofile'])) {
         $id = $_POST['id_transaksi'];
         $alasan = $_POST['alasan'];
     
-        $query  = mysqli_query($koneksi, "UPDATE `transaksi` SET `status`='2',`catatan`='$alasan' WHERE `id_transaksi` = '$id'");
+        $query  = mysqli_query($koneksi, "UPDATE `transaksi` SET `status`='3',`catatan`='$alasan' WHERE `id_transaksi` = '$id'");
         $result = mysqli_query($koneksi, $query);
         echo "<script>
         alert (' Transaksi Berhasil Dibatalkan!');
@@ -316,7 +316,7 @@ if(isset($_POST['updateprofile'])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Transaksi</h1> <a href="export-data-transaksi.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Export Data</a>
+                        <h1 class="h3 mb-0 text-gray-800">Transaksi</h1> <a href="export-data-transaksi.php" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Export Data</a>
                         
                     </div>
 
@@ -332,6 +332,7 @@ if(isset($_POST['updateprofile'])) {
                                             <th>Tanggal</th>
                                             <th>Nama Customer</th>
                                             <th>Pengiriman</th>
+                                            <th>Catatan</th>
                                             <th>Order Produk</th>
                                             <th>Total</th>
                                             <th>Metode Pembayaran</th>
@@ -342,7 +343,7 @@ if(isset($_POST['updateprofile'])) {
                                     <tbody>
                                        
                             <?php
-                            $query = "SELECT id_transaksi as id, tanggal_transaksi as tanggal,nama_lengkap as nama, subtotal as total, user.alamat as alamat, transaksi.metode as metode, transaksi.status as status FROM transaksi JOIN user ON transaksi.username = user.username order by transaksi.id_transaksi desc;";
+                            $query = "SELECT id_transaksi as id, tanggal_transaksi as tanggal,nama_lengkap as nama, subtotal as total, user.alamat as alamat, transaksi.metode as metode, transaksi.status as status, catatanpbl as catatan FROM transaksi JOIN user ON transaksi.username = user.username";
                             $result = mysqli_query($koneksi, $query);
                             $no1 = 1;
                             while ($row = mysqli_fetch_array($result)) {
@@ -353,6 +354,7 @@ if(isset($_POST['updateprofile'])) {
                                 $totalbayar = $row['total'];
                                 $status = $row['status'];
                                 $metode = $row['metode'];
+                                $catatan = $row['catatan'];
                                 ?>
 
                             <tr>
@@ -361,6 +363,16 @@ if(isset($_POST['updateprofile'])) {
                                 <td><?php echo $tgltransaksi; ?></td>
                                 <td><?php echo $namalengkap; ?></td>
                                 <td><?php echo $alamat; ?></td>
+                                <td><?php 
+                                
+                                if($catatan==null) {
+                                 echo "-";
+
+                                } else {
+                                    echo $catatan;
+                                }
+                                
+                                ?></td>
                                 <td><a class="btn btn-sm btn-primary shadow-sm" title="Detail Order" href="" data-toggle="modal" data-target="#myorder<?php echo $row['id']; ?>"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Detail Order</a></a>
                             
                                 <!-- Modal Detail Order -->
@@ -434,16 +446,54 @@ if(isset($_POST['updateprofile'])) {
                                     if($status=="0") {
                                         echo "<a class='btn btn-warning btn-circle' title='Transaksi sedang Diproses' href='proses-trans.php?id=$idtransaksi'><i class='fas fa-clock'></i></a>";
                                         echo " ";
-                                        echo "<a class='btn btn-danger btn-circle' title='Batalkan Transaksi' href='#' data-toggle='modal' data-target='#cancelorder'>&times;</a>";
+                                        echo "<a class='btn btn-danger btn-circle' title='Batalkan Transaksi' href='?id=$idtransaksi' data-toggle='modal' data-target='#cancelorder'>&times;</a>";
+
+                                        
                                         
                                         
                                     }
                                     elseif ($status=="1") {
+                                        echo "<a class='btn btn-primary btn-circle' title='Transaksi Dikirim' href='#'><i class='fas fa-truck'></i></a>";
+                                    }elseif ($status=="2") {
                                         echo "<a class='btn btn-success btn-circle' title='Transaksi Selesai' href='#'><i class='fas fa-check'></i></a>";
-                                    } else {
+                                    }
+
+                                     else {
                                         echo "<a class='btn btn-danger btn-circle' title='Transaksi Dibatalkan' href='#'>&times;</a>";
                                     }
                                     ?>
+
+                                        <!-- Modal Cancel Order -->
+             <div class="modal fade" id="cancelorder" role="dialog">
+                            <div class="modal-dialog">
+                            <!-- Modal content-->
+                            
+                            <div class="modal-content">
+                            <div class="modal-header">
+                            <h4 class="modal-title"><i class="fas fa-clipboard-list"></i> Batalkan Transaksi</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+
+                            <form method="POST" action="#" enctype="multipart/form-data">
+                    
+                        <input type="text" name="id_transaksi" value="<?php echo $_GET['id']; ?>">
+                        <div class="form-group">
+                          <label>Alasan Dibatalkan :</label>
+                          <textarea  type="text" name="alasan" class="form-control" required>      </textarea>
+                        </div>
+                       
+                        <div class="modal-footer">  
+                          <button name="batal"  class="btn btn-primary">Batalkan</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                             
+                      </form>
+
+                            </div>
+                            </div>
+                            </div>
+                            </div>
             
                                 </td>
                             </tr>
@@ -467,42 +517,7 @@ if(isset($_POST['updateprofile'])) {
             </div>
             <!-- End of Main Content -->
 
-             <!-- Modal Cancel Order -->
-             <div class="modal fade" id="cancelorder" role="dialog">
-                            <div class="modal-dialog">
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                            <div class="modal-header">
-                            <h4 class="modal-title"><i class="fas fa-clipboard-list"></i> Batalkan Transaksi</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                            
-                            <form method="POST" action="#" enctype="multipart/form-data">
-                        <?php
-                        $id = $idtransaksi;
-                        $query_edit = mysqli_query($koneksi, "SELECT * FROM transaksi WHERE id_transaksi='$id'");
-                        while ($row = mysqli_fetch_array($query_edit)) {  
-                        ?>
-                        <input type="hidden" name="id_transaksi" value="<?php echo $id; ?>">
-                        <div class="form-group">
-                          <label>Alasan Dibatalkan :</label>
-                          <textarea  type="text" name="alasan" class="form-control" required>      </textarea>
-                        </div>
-                       
-                        <div class="modal-footer">  
-                          <button name="batal"  class="btn btn-primary">Batalkan</button>
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                        <?php 
-                        }
-                        ?>        
-                      </form>
-
-                            </div>
-                            </div>
-                            </div>
-                            </div>
+         
 
           
 

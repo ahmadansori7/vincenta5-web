@@ -45,7 +45,7 @@ if (!isset($_SESSION["ses"])) {
                 <tbody>
                    
                 <?php
-                            $query = "SELECT id_transaksi as id, tanggal_transaksi as tanggal,nama_lengkap as nama, subtotal as total, user.alamat as alamat, transaksi.metode as metode, transaksi.status as status FROM transaksi JOIN user ON transaksi.username = user.username order by transaksi.id_transaksi desc;";
+                            $query = "SELECT id_transaksi as id, tanggal_transaksi as tanggal,nama_lengkap as nama, subtotal as total, user.alamat as alamat, transaksi.metode as metode, transaksi.status as status FROM transaksi JOIN user ON transaksi.username = user.username";
                             $result = mysqli_query($koneksi, $query);
                             $no1 = 1;
                             while ($row = mysqli_fetch_array($result)) {
@@ -78,8 +78,11 @@ if (!isset($_SESSION["ses"])) {
                                         
                                     }
                                     elseif ($status=="1") {
+                                        echo "Dikirim";
+                                    }  elseif ($status=="2") {
                                         echo "Selesai";
-                                    } else {
+                                    } 
+                                     else {
                                         echo "Dibatalkan";
                                     }
                                     ?>

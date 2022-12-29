@@ -1,37 +1,60 @@
-<?php
-require ('koneksi.php');
-
+<?php 
+// untuk mengaktifkan session pada php agar keamanan login lebih tinggi
 session_start();
+// menghubungkan file php dengan koneksi ke database mysqli
+include 'koneksi.php';
+// menerima data yang disubmit dari form login multi user
 
 if (isset($_POST['submit']) ){
 $username=$_POST['txt_user'];
 $password=$_POST['txt_pass'];
- 
+
 // untuk keamanan
 $username = stripslashes($username);
 $password = stripslashes($password);
- 
-$query="SELECT * FROM user WHERE username='$username' and password='$password'";
-$result = mysqli_query($koneksi, $query);
-$num = mysqli_num_rows($result);
 
- 
-if($num==1){
+// seleksi data user dengan username dan password apakah sesuai atau tidak 
+
+$login = mysqli_query($koneksi,"SELECT * FROM user WHERE username='$username' and password='$password'");
+
+// hitung jumlah data yang ditemukan dari form login
+$cek = mysqli_num_rows($login);
+// mengcek apakah username dan password ditemukan pada database yang ada
+if($cek > 0){
+ $data = mysqli_fetch_assoc($login);
+ // fungsi login sebagai admin
+ if($data['level']=="admin"){
+  // buat session login dan username agar keamanan lebih tinggi
   $_SESSION['ses'] = $_POST ['txt_user'];
+  // pindahkan ke halaman dashboard admin
   echo "<script>
   eval(\"parent.location='admin '\");
-  alert (' Login Berhasil!');
+  alert (' Login Admin Berhasil!');
   </script>";
-}
-else {
+ // fungsi login sebagai pegawai
+ }else if($data['level']=="pelanggan"){
+  // buat session login dan username agar keamanan lebih tinggi
+  $_SESSION['ses'] = $_POST ['txt_user'];
+  // pindahkan ke halaman dashboard admin
+  echo "<script>
+  eval(\"parent.location='user '\");
+  alert (' Login User Berhasil!');
+  </script>";
+ 
+ }else{
+  // pindahkan ke halaman login kembali
   echo "<script>
           eval(\"parent.location='login.php '\");
           alert (' Username atau Password salah!');
           </script>";
+ }
+}else{
+  echo "<script>
+  eval(\"parent.location='login.php '\");
+  alert (' Username atau Password salah!');
+  </script>";
 }
-
 }
-
 ?>
 
 <!DOCTYPE html>
