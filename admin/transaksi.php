@@ -446,10 +446,8 @@ if(isset($_POST['updateprofile'])) {
                                     if($status=="0") {
                                         echo "<a class='btn btn-warning btn-circle' title='Transaksi sedang Diproses' href='proses-trans.php?id=$idtransaksi'><i class='fas fa-clock'></i></a>";
                                         echo " ";
-                                        echo "<a class='btn btn-danger btn-circle' title='Batalkan Transaksi' href='?id=$idtransaksi' data-toggle='modal' data-target='#cancelorder'>&times;</a>";
+                                        echo "<a class='btn btn-danger btn-circle' title='Batalkan Transaksi' href='batalkan-trans.php?id=$idtransaksi' onclick='if (confirm('Apakah yakin ingin membatalkan pesanan?')){return true;}else{event.stopPropagation(); event.preventDefault();};'>&times;</a>";
 
-                                        
-                                        
                                         
                                     }
                                     elseif ($status=="1") {
@@ -462,38 +460,6 @@ if(isset($_POST['updateprofile'])) {
                                         echo "<a class='btn btn-danger btn-circle' title='Transaksi Dibatalkan' href='#'>&times;</a>";
                                     }
                                     ?>
-
-                                        <!-- Modal Cancel Order -->
-             <div class="modal fade" id="cancelorder" role="dialog">
-                            <div class="modal-dialog">
-                            <!-- Modal content-->
-                            
-                            <div class="modal-content">
-                            <div class="modal-header">
-                            <h4 class="modal-title"><i class="fas fa-clipboard-list"></i> Batalkan Transaksi</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-
-                            <form method="POST" action="#" enctype="multipart/form-data">
-                    
-                        <input type="text" name="id_transaksi" value="<?php echo $_GET['id']; ?>">
-                        <div class="form-group">
-                          <label>Alasan Dibatalkan :</label>
-                          <textarea  type="text" name="alasan" class="form-control" required>      </textarea>
-                        </div>
-                       
-                        <div class="modal-footer">  
-                          <button name="batal"  class="btn btn-primary">Batalkan</button>
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                             
-                      </form>
-
-                            </div>
-                            </div>
-                            </div>
-                            </div>
             
                                 </td>
                             </tr>
