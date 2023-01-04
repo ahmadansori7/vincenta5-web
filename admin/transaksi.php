@@ -324,7 +324,7 @@ if(isset($_POST['updateprofile'])) {
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="dataTable" width="100px" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -343,7 +343,7 @@ if(isset($_POST['updateprofile'])) {
                                     <tbody>
                                        
                             <?php
-                            $query = "SELECT id_transaksi as id, tanggal_transaksi as tanggal,nama_lengkap as nama, subtotal as total, user.alamat as alamat, transaksi.metode as metode, transaksi.status as status, catatanpbl as catatan FROM transaksi JOIN user ON transaksi.username = user.username";
+                            $query = "SELECT id_transaksi as id, tanggal_transaksi as tanggal,nama_lengkap as nama, subtotal as total,  transaksi.pengiriman as alamat, transaksi.metode as metode, transaksi.status as status, catatanpbl as catatan FROM transaksi JOIN user ON transaksi.username = user.username";
                             $result = mysqli_query($koneksi, $query);
                             $no1 = 1;
                             while ($row = mysqli_fetch_array($result)) {
@@ -439,7 +439,59 @@ if(isset($_POST['updateprofile'])) {
 
                                 
                                 <td><?php echo $totalbayar; ?></td>
-                                <td><?php echo $metode; ?></td>
+                               
+                                <td><?php echo $metode; ?> (<?php
+                                    if($gambar==null) {
+                                        echo '<span class="text-danger">UNPAID</span>';
+                                    } else {
+                                        echo "<a href='' data-toggle='modal' class='text-success+`
+                                        
+                                        ' data-target='#cekbukti<?php echo $idtransaksi; ?'>PAID</a>";
+                                    }
+                                    ?>)
+                                 <!-- Modal Detail Order -->
+                         <div class="modal fade" id="cekbukti<?php echo $idtransaksi; ?>" role="dialog">
+                            <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                            <div class="modal-header">
+                            <h4 class="modal-title"><i class="fas fa-clipboard-list"></i> SS Bukti (<?php echo $idtransaksi; ?>)</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <tbody>
+                                       
+                            <?php
+
+                            $id =  $idtransaksi; 
+                            $query4 = "SELECT gambarbukti from transaksi where id_transaksi = '$id';";
+                            $result4 = mysqli_query($koneksi, $query4);
+                        
+                            while ($row = mysqli_fetch_array($result4)) {
+                                $gambar1['gambarbukti'];
+                                ?>
+
+                                <img src="vangkringan/gambarbukti/<?php echo $gambar1; ?>" width="400px">
+
+
+                            <?php
+                            } ?>
+
+                            
+                                    </tbody>
+                                </table>
+                    
+                
+
+                            </div>
+                            </div>
+                            </div>
+                            
+                            
+                            
+                            </td>
+
                                 <td>
 
                                 <?php 
