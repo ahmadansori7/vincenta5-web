@@ -1,5 +1,5 @@
 <?php
-require ('..\koneksi.php');
+require ('koneksi.php');
 session_start();
 error_reporting(0); 
 
@@ -343,7 +343,7 @@ if(isset($_POST['updateprofile'])) {
                                     <tbody>
                                        
                             <?php
-                            $query = "SELECT id_transaksi as id, tanggal_transaksi as tanggal,nama_lengkap as nama, subtotal as total,  transaksi.pengiriman as alamat, transaksi.metode as metode, transaksi.status as status, catatanpbl as catatan FROM transaksi JOIN user ON transaksi.username = user.username";
+                            $query = "SELECT id_transaksi as id, tanggal_transaksi as tanggal,nama_lengkap as nama, subtotal as total,  transaksi.pengiriman as alamat, transaksi.metode as metode, transaksi.status as status, transaksi.catatanpbl as catatan, transaksi.gambarbukti as gambar FROM transaksi JOIN user ON transaksi.username = user.username";
                             $result = mysqli_query($koneksi, $query);
                             $no1 = 1;
                             while ($row = mysqli_fetch_array($result)) {
@@ -355,6 +355,8 @@ if(isset($_POST['updateprofile'])) {
                                 $status = $row['status'];
                                 $metode = $row['metode'];
                                 $catatan = $row['catatan'];
+				$gambar = $row['gambar'];
+
                                 ?>
 
                             <tr>
@@ -440,22 +442,14 @@ if(isset($_POST['updateprofile'])) {
                                 
                                 <td><?php echo $totalbayar; ?></td>
                                
-                                <td><?php echo $metode; ?> (<?php
-                                    if($gambar==null) {
-                                        echo '<span class="text-danger">UNPAID</span>';
-                                    } else {
-                                        echo "<a href='' data-toggle='modal' class='text-success+`
-                                        
-                                        ' data-target='#cekbukti<?php echo $idtransaksi; ?'>PAID</a>";
-                                    }
-                                    ?>)
+                                <td><?php echo $metode; ?> (<a href="" data-toggle="modal" data-target="#cekbukti<?php echo $idtransaksi; ?>">cek bukti</a>)
                                  <!-- Modal Detail Order -->
                          <div class="modal fade" id="cekbukti<?php echo $idtransaksi; ?>" role="dialog">
                             <div class="modal-dialog">
                             <!-- Modal content-->
                             <div class="modal-content">
                             <div class="modal-header">
-                            <h4 class="modal-title"><i class="fas fa-clipboard-list"></i> SS Bukti (<?php echo $idtransaksi; ?>)</h4>
+                            <h4 class="modal-title"><i class="fas fa-clipboard-list"></i> Cek Bukti (<?php echo $idtransaksi; ?>)</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -469,10 +463,17 @@ if(isset($_POST['updateprofile'])) {
                             $result4 = mysqli_query($koneksi, $query4);
                         
                             while ($row = mysqli_fetch_array($result4)) {
-                                $gambar1['gambarbukti'];
+                                $gambar = $row['gambarbukti'];
                                 ?>
-
-                                <img src="vangkringan/gambarbukti/<?php echo $gambar1; ?>" width="400px">
+				
+				
+				<?php
+				if ($gambar == null) {
+                                echo '<p> belum bayar</p>';
+				} else {
+				echo "<img src='$gambar' width='400px'>";
+				}
+				?>
 
 
                             <?php
@@ -491,7 +492,6 @@ if(isset($_POST['updateprofile'])) {
                             
                             
                             </td>
-
                                 <td>
 
                                 <?php 
